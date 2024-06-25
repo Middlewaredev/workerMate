@@ -2,7 +2,7 @@ import { theme } from '@/constants/customTheme';
 import { loadFonts } from '@/constants/fonts';
 import { ActivityIndicator } from "react-native";
 import { PaperProvider } from 'react-native-paper';
-import Welcome from '@/(stack)/welcome';
+import { Slot } from 'expo-router';
 
 export default function index(){
     const [fontsLoaded] = loadFonts();
@@ -13,7 +13,7 @@ export default function index(){
 
     return (
         <PaperProvider theme={theme}>
-            <Welcome />
+            <Slot />
         </PaperProvider>
     )
     

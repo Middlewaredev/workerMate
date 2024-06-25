@@ -7,7 +7,8 @@ export default function StackLayout (){
                 headerShown: false
             }}
         >
-            <Stack.Screen name="welcome" />
+            <Stack.Screen name="index" />
+            <Stack.Screen name="createAccount" />
         </Stack>
     )
 }

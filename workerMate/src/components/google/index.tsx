@@ -4,7 +4,7 @@ import { DividerStyle } from "./style";
 
 export default function Google() {
     return (
-        <>
+        <View style={{marginTop: 40, alignItems: 'center'}}>
             <View style={DividerStyle.container}>
                 <View style={DividerStyle.line}/>
                 <Text>
@@ -24,6 +24,6 @@ export default function Google() {
                     Continuar com Google
                 </Text>
             </TouchableOpacity>
-        </>
+        </View>
     );
 }

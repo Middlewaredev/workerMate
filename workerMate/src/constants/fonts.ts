@@ -61,5 +61,10 @@ export const fonts = {
       fontFamily: 'Roboto_500Medium',
       fontWeight: 'normal',
       fontSize: 16,
+    },
+    displayMedium: {
+      fontFamily: 'Roboto_500Medium',
+      fontWeight: 'normal',
+      fontSize: 24,
     }
   };
