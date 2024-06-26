@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, TouchableOpacity, View } from "react-native";
 import { Checkbox, Text, useTheme  } from "react-native-paper";
 import { layoutStyle } from "@/styles/layout";
 import DefaultInput from "@/components/defaultInput";
@@ -64,11 +64,18 @@ export default function Welcome() {
                 type={ButtonType.secondary}
                 disabled={!checked}
             />
-            <Text
-                style={layoutStyle.welcomeFooter}
-            >
-                Já tem conta? Entrar
-            </Text>
+
+            <Link href="login" asChild>
+                <TouchableOpacity
+                    activeOpacity={0.6}
+                >
+                    <Text
+                        style={layoutStyle.welcomeFooter}
+                    >
+                        Já tem conta? Entrar
+                    </Text>
+                </TouchableOpacity>
+            </Link>
             <Google />
         </SafeAreaView>
     );

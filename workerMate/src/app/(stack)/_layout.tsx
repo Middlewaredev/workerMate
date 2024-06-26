@@ -10,6 +10,7 @@ export default function StackLayout (){
             <Stack.Screen name="index" />
             <Stack.Screen name="createAccount" />
             <Stack.Screen name="privacyPolicy" />
+            <Stack.Screen name="login" />
         </Stack>
     )
 }

@@ -1,10 +1,11 @@
 import colors from "@/constants/colors";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import { Icon, Text, useTheme  } from "react-native-paper";
 import { layoutStyle } from "@/styles/layout";
 import DefaultInput from "@/components/defaultInput";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import Google from "@/components/google";
+import { Link } from "expo-router";
 
 
 export default function index() {
@@ -42,11 +43,17 @@ export default function index() {
                 type={ButtonType.primary}
                 disabled={false}
             />
-            <Text
-                style={layoutStyle.welcomeFooter}
-            >
-                Já tem conta? Entrar
-            </Text>
+            <Link href="login" asChild>
+                <TouchableOpacity
+                    activeOpacity={0.6}
+                >
+                    <Text
+                        style={layoutStyle.welcomeFooter}
+                    >
+                        Já tem conta? Entrar
+                    </Text>
+                </TouchableOpacity>
+            </Link>
             <Google />
         </SafeAreaView>
     );
