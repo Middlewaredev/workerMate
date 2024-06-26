@@ -43,7 +43,7 @@ export default function Login() {
             </Link>
             <MainButton
                 title="Entrar"
-                link=""
+                link="home"
                 type={ButtonType.secondary}
             />
 

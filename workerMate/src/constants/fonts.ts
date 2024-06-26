@@ -52,8 +52,9 @@ export const fonts = {
 
     },
     labelLarge: {
-      fontFamily: 'Roboto_400Regular',
+      fontFamily: 'Roboto_500Medium',
       fontWeight: 'normal',
+      fontSize: 24
     },
     headlineLarge: {
       fontFamily: 'Roboto_700Bold',
@@ -62,9 +63,9 @@ export const fonts = {
       textTransform: 'uppercase',
     },
     headlineMedium: {
-      fontFamily: 'Roboto_500Medium',
+      fontFamily: 'Roboto_400Regular',
       fontWeight: 'normal',
-      fontSize: 16,
+      fontSize: 18,
     },
     headlineSmall: {
 

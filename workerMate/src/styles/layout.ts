@@ -14,6 +14,11 @@ export const layoutStyle = StyleSheet.create({
         alignItems: 'center',
         marginTop: 40
     },
+    containerJustified: {
+        backgroundColor: colors.background,
+        flex: 1,
+        paddingLeft: 20
+    },
     welcomeHeader: {
         width: '40%',
         //backgroundColor: "#ff0000",
