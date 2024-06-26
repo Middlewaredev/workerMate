@@ -23,7 +23,7 @@ export default function Login() {
             <DefaultInput
                 label="Senha"
             />
-            <Link href="" asChild>
+            <Link href="recoverPassword" asChild>
                 <TouchableOpacity
                     style={{
                         alignItems: 'flex-end',

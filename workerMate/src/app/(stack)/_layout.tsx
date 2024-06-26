@@ -11,6 +11,7 @@ export default function StackLayout (){
             <Stack.Screen name="createAccount" />
             <Stack.Screen name="privacyPolicy" />
             <Stack.Screen name="login" />
+            <Stack.Screen name="recoverPassword" />
         </Stack>
     )
 }

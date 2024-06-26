@@ -17,7 +17,7 @@ export default function Header({title}: HeaderProps) {
                     size={24}
                 />
             </TouchableOpacity>
-            <Text variant='displayMedium' style={{marginLeft: 20}}>Política de Privacidade</Text>
+            <Text variant='displayMedium' style={{marginLeft: 20}}>{title}</Text>
         </View>
     );
 }

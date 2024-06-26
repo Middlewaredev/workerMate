@@ -42,10 +42,14 @@ export const fonts = {
     bodySmall: {
       fontFamily: 'Roboto_400Regular',
       fontWeight: 'normal',
+      fontSize: 12
     },
     bodyLarge: {
       fontFamily: 'Roboto_400Regular',
       fontWeight: 'normal',
+    },
+    bodyMedium: {
+
     },
     labelLarge: {
       fontFamily: 'Roboto_400Regular',
@@ -61,6 +65,9 @@ export const fonts = {
       fontFamily: 'Roboto_500Medium',
       fontWeight: 'normal',
       fontSize: 16,
+    },
+    headlineSmall: {
+
     },
     displayMedium: {
       fontFamily: 'Roboto_700Bold',
