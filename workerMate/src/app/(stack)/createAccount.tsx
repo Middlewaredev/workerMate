@@ -52,7 +52,7 @@ export default function Welcome() {
                 <Text style={layoutStyle.welcomeFooter}>
                     Estou de acordo com a&nbsp;
                 </Text>
-                <Link href="" asChild>
+                <Link href="privacyPolicy" asChild>
                     <Text>
                         Política de Privacidade
                     </Text>

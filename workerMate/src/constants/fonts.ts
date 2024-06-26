@@ -63,8 +63,13 @@ export const fonts = {
       fontSize: 16,
     },
     displayMedium: {
-      fontFamily: 'Roboto_500Medium',
-      fontWeight: 'normal',
+      fontFamily: 'Roboto_700Bold',
+      fontWeight: 'bold',
       fontSize: 24,
+    },
+    displaySmall: {
+      fontFamily: 'Roboto_700Bold',
+      fontWeight: 'bold',
+      fontSize: 20,
     }
   };
