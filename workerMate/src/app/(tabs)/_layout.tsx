@@ -40,6 +40,21 @@ export default function TabsLayout() {
                     header: () => <PageHeader title="WokerMate"/>
                 }}
             />
+            <Tabs.Screen
+                name="clients"
+                options={{
+                    tabBarIcon: ({size, color}) => (
+                        <Icon
+                            source="account-outline"
+                            color={color}
+                            size={size}
+                        />
+                    ),
+                    title: "Clientes",
+                    headerShown: true,
+                    header: () => <PageHeader title="Clientes"/>
+                }}
+            />
         </Tabs>
     );
 }

@@ -2,12 +2,16 @@ import { TouchableOpacity, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
 import { OrderListStyle } from "./style";
 import colors from "@/constants/colors";
+import { BlurView } from "expo-blur";
 
 export interface FinanceListProps {
-    title: string
+    title: string;
+    value: string;
+    isVisible: boolean;
 }
 
-export default function FinanceList({title}: FinanceListProps) {
+export default function FinanceList({title, value, isVisible}: FinanceListProps) {
+    const mask = "•••••";
     return (
         <TouchableOpacity
             style={OrderListStyle.container}
@@ -22,8 +26,8 @@ export default function FinanceList({title}: FinanceListProps) {
             <Text variant='headlineMedium'>
                 {title}
             </Text>
-            <Text variant='headlineMedium'>
-                R$ 0,00
+            <Text variant='headlineMedium' >
+                R$ {isVisible ? value : mask}
             </Text>
             </View>
             <Icon

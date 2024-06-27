@@ -91,12 +91,18 @@ export default function Home() {
                 </View>
                 <FinanceList
                     title="A receber"
+                    value="0,00"
+                    isVisible={eyeOpen}
                 />
                 <FinanceList
                     title="Em atraso"
+                    value="0,00"
+                    isVisible={eyeOpen}
                 />
                 <FinanceList
                     title="Saldo atual"
+                    value="0,00"
+                    isVisible={eyeOpen}
                 />
                 <Text
                     variant='labelLarge'
