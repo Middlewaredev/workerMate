@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "workerMate",
+    "name": "Worker Mate",
     "slug": "workerMate",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -41,6 +41,7 @@
       "eas": {
         "projectId": "aded2941-1ce6-44d7-b31b-ba97107619ac"
       }
-    }
+    },
+    "owner": "middlewaredev"
   }
 }
