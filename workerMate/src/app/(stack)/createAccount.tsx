@@ -60,7 +60,7 @@ export default function Welcome() {
             </View>
             <MainButton
                 title="Cadastrar"
-                link="createAccount"
+                link="login"
                 type={ButtonType.secondary}
                 disabled={!checked}
             />
