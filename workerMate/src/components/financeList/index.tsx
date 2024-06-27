@@ -2,7 +2,6 @@ import { TouchableOpacity, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
 import { OrderListStyle } from "./style";
 import colors from "@/constants/colors";
-import { BlurView } from "expo-blur";
 
 export interface FinanceListProps {
     title: string;
