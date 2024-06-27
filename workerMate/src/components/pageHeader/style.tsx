@@ -16,6 +16,7 @@ export const PageHeaderStyle = StyleSheet.create({
     content: {
         color: colors.surface,
         textAlign: 'center',
-        flex: 1
+        flex: 1,
+        marginLeft: -34
     }
 });

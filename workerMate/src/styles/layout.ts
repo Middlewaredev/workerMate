@@ -12,7 +12,8 @@ export const layoutStyle = StyleSheet.create({
         backgroundColor: "#f5f5f5",
         flex: 1,
         alignItems: 'center',
-        marginTop: 40
+        marginTop: 40,
+        marginBottom: 10
     },
     containerJustified: {
         backgroundColor: colors.background,
@@ -29,5 +30,16 @@ export const layoutStyle = StyleSheet.create({
     welcomeFooter: {
         color: colors.disabled,
         fontSize: 12
+    },
+    topic:{
+        width: '80%',
+        marginTop: 10
+    },
+    scroll: {
+        width: '100%'
+    },
+    scrollContent: {
+        width: '100%',
+        alignItems: 'center'
     }
 })

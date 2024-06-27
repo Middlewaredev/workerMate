@@ -1,7 +1,7 @@
 import PageHeader from "@/components/pageHeader";
 import colors from "@/constants/colors";
 import { Tabs } from "expo-router";
-import { Icon, Title } from "react-native-paper";
+import { Icon } from "react-native-paper";
 
 
 export default function TabsLayout() {
@@ -53,6 +53,12 @@ export default function TabsLayout() {
                     title: "Clientes",
                     headerShown: true,
                     header: () => <PageHeader title="Clientes"/>
+                }}
+            />
+            <Tabs.Screen 
+                name="(stack)"
+                options={{
+                    href: null
                 }}
             />
         </Tabs>

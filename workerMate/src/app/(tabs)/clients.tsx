@@ -20,7 +20,7 @@ export default function Clients() {
             <MainButton
                 title="Adicionar Cliente"
                 type={ButtonType.primary}
-                link=""
+                link="(stack)/addClient"
             />
         </View>
     );
