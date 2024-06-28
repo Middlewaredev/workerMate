@@ -13,33 +13,38 @@ export interface MainButtonProps {
     title: string;
     link: string;
     type: ButtonType;
-    disabled?: boolean
+    disabled?: boolean;
+    pressFunction?: () => void; 
 }
 
 export default function MainButton({
         title,
         link,
         type,
-        disabled
+        disabled,
+        pressFunction
 }: MainButtonProps) {
     const buttonStyle = disabled
         ? MainButtonStyle.disabled
         : type === 'Primary'
         ? MainButtonStyle.primary
         : MainButtonStyle.secondary;
-    return (
-        <Link href={link} asChild>
-            <TouchableOpacity
-                activeOpacity={0.6}
-                style={buttonStyle}
-                disabled={disabled}
-            >
-                <Text
-                    style={MainButtonStyle.content}
+    
+    const content = (
+        <TouchableOpacity
+                    activeOpacity={0.6}
+                    style={buttonStyle}
+                    disabled={disabled}
+                    onPress={pressFunction}
                 >
-                    {title}
-                </Text>
-            </TouchableOpacity>
-        </Link>
+                    <Text
+                        style={MainButtonStyle.content}
+                    >
+                        {title}
+                    </Text>
+                </TouchableOpacity>
+    )
+    return (
+        link ? <Link href={link} asChild>{content}</Link> : content
     );
 }
