@@ -16,7 +16,7 @@ export default function TabsLayout() {
                     borderWidth: 1,
                     borderBottomWidth: 0,
                     borderColor: colors.border,
-                    minHeight: 74
+                    minHeight: 74,
                 },
                 tabBarItemStyle: {
                     paddingBottom: 15,
@@ -58,7 +58,10 @@ export default function TabsLayout() {
             <Tabs.Screen 
                 name="(stack)"
                 options={{
-                    href: null
+                    href: null,
+                    tabBarStyle: {
+                        display: 'none'
+                    }
                 }}
             />
         </Tabs>

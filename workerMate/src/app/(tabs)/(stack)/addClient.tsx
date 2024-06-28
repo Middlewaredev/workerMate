@@ -4,13 +4,21 @@ import Header from "@/components/header";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import TextAreaInput from "@/components/textAreaInput";
 import { layoutStyle } from "@/styles/layout";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Text } from "react-native-paper";
 
 export default function AddClient() {
+
+    const [clientType, setClientType] = useState('cpf');
+
+    const handleClientTypeChange = (value: string) => {
+        setClientType(value);
+    };
+
     return (
         <View style={layoutStyle.container}>
-            <Header 
+            <Header
                 title="Adicionar Cliente"
             />
             <ScrollView style={layoutStyle.scroll}>
@@ -21,10 +29,24 @@ export default function AddClient() {
                     <Text style={layoutStyle.topic}>
                         Tipo de cliente
                     </Text>
-                    <ClientTypeRadio />
-                    <DefaultInput 
-                        label="CPF"
+                    <ClientTypeRadio
+                        onValueChange={handleClientTypeChange}
                     />
+                    {
+                        clientType === "cpf" ?
+                            <DefaultInput 
+                                label="CPF"
+                            />
+                        :
+                            <>
+                                <DefaultInput 
+                                    label="CNPJ"
+                                />
+                                <DefaultInput 
+                                    label="Razão Social"
+                                />
+                            </>
+                    }
                     <Text style={layoutStyle.topic}>
                         Contatos
                     </Text>

@@ -4,9 +4,18 @@ import { View } from "react-native";
 import { RadioButton, Text } from "react-native-paper";
 import { ClientTypeRadioStyle } from "./style";
 
-export default function ClientTypeRadio() {
+export interface ClientTypeRadioProps {
+    onValueChange: (value: string) => void;
+}
+
+export default function ClientTypeRadio({onValueChange}: ClientTypeRadioProps) {
 
     const [checked, setChecked] = useState('cpf');
+
+    const handlePress = (value: string) => {
+        setChecked(value);
+        onValueChange(value);
+    };
 
     return (
         <View style={ClientTypeRadioStyle.container}>
@@ -14,7 +23,7 @@ export default function ClientTypeRadio() {
                 <RadioButton 
                     value="cpf"
                     status={ checked === 'cpf' ? 'checked' : 'unchecked' }
-                    onPress={() => setChecked('cpf')}
+                    onPress={() => handlePress('cpf')}
                     color={colors.primary}
                 />
                 <Text variant='bodySmall'>Pessoa física</Text>
@@ -23,7 +32,7 @@ export default function ClientTypeRadio() {
                 <RadioButton 
                     value="cnpj"
                     status={ checked === 'cnpj' ? 'checked' : 'unchecked' }
-                    onPress={() => setChecked('cnpj')}
+                    onPress={() => handlePress('cnpj')}
                     color={colors.primary}
                 />
                 <Text variant='bodySmall'>Pessoa jurídica</Text>
