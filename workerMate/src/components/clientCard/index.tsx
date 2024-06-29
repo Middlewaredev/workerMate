@@ -6,9 +6,11 @@ import colors from "@/constants/colors";
 export interface ClientCardProps {
     clientName: string;
     type: string;
+    email: string;
+    phone: string;
 }
 
-export default function ClientCard({clientName, type}: ClientCardProps) {
+export default function ClientCard({clientName, type, email, phone}: ClientCardProps) {
     return (
         <View style={ClientCardStyle.container}>
             <View style={ClientCardStyle.content}>
@@ -47,7 +49,7 @@ export default function ClientCard({clientName, type}: ClientCardProps) {
                         size={16}
                     />                
                     <Text>
-                        &nbsp;email@email.com
+                        &nbsp;{email}
                     </Text>
                 </View>
                 <View style={ClientCardStyle.dualContent}>
@@ -56,7 +58,7 @@ export default function ClientCard({clientName, type}: ClientCardProps) {
                         size={16}
                     />                
                     <Text>
-                        &nbsp;(XX) XXXXX-XXXX
+                        &nbsp;{phone}
                     </Text>
                 </View>
             </View>
