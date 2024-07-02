@@ -8,9 +8,12 @@ export interface ClientCardProps {
     type: string;
     email: string;
     phone: string;
+    deleteFunction?: () => void;
+    editFunction?: () => void;
+    seeMoreFunction?: () => void;
 }
 
-export default function ClientCard({clientName, type, email, phone}: ClientCardProps) {
+export default function ClientCard({clientName, type, email, phone, deleteFunction, editFunction, seeMoreFunction}: ClientCardProps) {
     return (
         <View style={ClientCardStyle.container}>
             <View style={ClientCardStyle.content}>
@@ -20,7 +23,8 @@ export default function ClientCard({clientName, type, email, phone}: ClientCardP
                 <View style={ClientCardStyle.icons}>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        >
+                        onPress={editFunction? editFunction : () => null}
+                    >
                         <Icon
                             source="account-edit-outline"
                             size={24}
@@ -28,6 +32,7 @@ export default function ClientCard({clientName, type, email, phone}: ClientCardP
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.6}
+                        onPress={deleteFunction}
                     >
                         <Icon
                             source="delete-outline"
@@ -62,13 +67,16 @@ export default function ClientCard({clientName, type, email, phone}: ClientCardP
                     </Text>
                 </View>
             </View>
-            <Button>
+            <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={seeMoreFunction}
+            >
                 <Text 
                     style={ClientCardStyle.link}
                 >
                     Ver mais
                 </Text>
-            </Button>
+            </TouchableOpacity>
         </View>
     );
 }

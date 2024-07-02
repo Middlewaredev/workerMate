@@ -27,6 +27,7 @@ export default function AddClient() {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [notes, setNotes] = useState('');
+    
 
     const handleClientTypeChange = (value: string) => {
         setClientType(value);

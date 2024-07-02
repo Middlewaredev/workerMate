@@ -32,17 +32,17 @@ export default function MainButton({
     
     const content = (
         <TouchableOpacity
-                    activeOpacity={0.6}
-                    style={buttonStyle}
-                    disabled={disabled}
-                    onPress={pressFunction}
-                >
-                    <Text
-                        style={MainButtonStyle.content}
-                    >
-                        {title}
-                    </Text>
-                </TouchableOpacity>
+            activeOpacity={0.6}
+            style={buttonStyle}
+            disabled={disabled}
+            onPress={pressFunction}
+        >
+            <Text
+                style={MainButtonStyle.content}
+            >
+                {title}
+            </Text>
+        </TouchableOpacity>
     )
     return (
         link ? <Link href={link} asChild>{content}</Link> : content

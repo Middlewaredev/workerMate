@@ -2,9 +2,11 @@ import ClientCard from "@/components/clientCard";
 import DefaultInput from "@/components/defaultInput";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import colors from "@/constants/colors";
+import { loadClients } from "@/libs/storage";
 import { layoutStyle } from "@/styles/layout";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
 
@@ -33,23 +35,12 @@ export default function Clients() {
     const [clients, setClients] = useState<Client[]>([]);
     const [hasClients, setHasClients] = useState(true);
 
-    const loadClients = async () => {
-        try{
-            const key = "@workermate:clients";
-            const clientsData = await AsyncStorage.getItem(key);
-            const clientList = clientsData ? JSON.parse(clientsData) : [];
-            setHasClients(clients.length > 0);
-            setClients(clientList);
-            console.log(clients.length)
-        } catch (error)  {
-            console.error(error)
+    useEffect(() =>{
+        async function loadStoredClients() {
+            setClients(await loadClients());
         }
-    }
-
-    useEffect(() => {
-        loadClients()
+        loadStoredClients();
     })
-
 
     const noClients = (
         <View style={{flex: 1, alignItems: "center", marginTop: 40}}>
@@ -91,6 +82,7 @@ export default function Clients() {
                 title="Adicionar Cliente"
                 type={ButtonType.primary}
                 link="(stack)/addClient"
+                
             />
         </View>
     );
