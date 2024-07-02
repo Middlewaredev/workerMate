@@ -33,13 +33,18 @@ export interface Client {
 export default function Clients() {
 
     const [clients, setClients] = useState<Client[]>([]);
-    const [hasClients, setHasClients] = useState(true);
+    const [hasClients, setHasClients] = useState(false);
 
     useEffect(() =>{
         async function loadStoredClients() {
             setClients(await loadClients());
         }
         loadStoredClients();
+        if(clients.length > 0){
+            setHasClients(true)
+        } else {
+            setHasClients(false)
+        }
     })
 
     const noClients = (
@@ -64,10 +69,7 @@ export default function Clients() {
                 />
                 {clients.map((client, index) => 
                     <ClientCard
-                        clientName={client.name}
-                        type={client.clientType === 'cpf' ? 'Pessoa Física' : "Pessoa Jurídica"}
-                        email={client.email}
-                        phone={client.phones[0]}
+                        client={client}
                         key={index}
                     />
                 )}

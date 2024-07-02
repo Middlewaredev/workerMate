@@ -1,29 +1,27 @@
 import { TouchableOpacity, View } from "react-native";
 import { Button, Icon, Text } from "react-native-paper";
 import { ClientCardStyle } from "./style";
-import colors from "@/constants/colors";
+import { Client } from "@/app/(tabs)/clients";
+import { deleteClient } from "@/libs/storage";
 
 export interface ClientCardProps {
-    clientName: string;
-    type: string;
-    email: string;
-    phone: string;
-    deleteFunction?: () => void;
-    editFunction?: () => void;
-    seeMoreFunction?: () => void;
+    client: Client;
 }
 
-export default function ClientCard({clientName, type, email, phone, deleteFunction, editFunction, seeMoreFunction}: ClientCardProps) {
+export default function ClientCard({client}: ClientCardProps) {
+    async function handleDelete(){
+        await deleteClient(client)
+    }
     return (
         <View style={ClientCardStyle.container}>
             <View style={ClientCardStyle.content}>
                 <Text>
-                    {clientName}
+                    {client.name}
                 </Text>
                 <View style={ClientCardStyle.icons}>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        onPress={editFunction? editFunction : () => null}
+                        
                     >
                         <Icon
                             source="account-edit-outline"
@@ -32,7 +30,7 @@ export default function ClientCard({clientName, type, email, phone, deleteFuncti
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        onPress={deleteFunction}
+                        onPress={handleDelete}
                     >
                         <Icon
                             source="delete-outline"
@@ -44,7 +42,7 @@ export default function ClientCard({clientName, type, email, phone, deleteFuncti
             <View style={ClientCardStyle.content}>
                 <View style={ClientCardStyle.dualContent} >
                     <Text>Tipo:&nbsp;</Text>
-                    <Text>{type}</Text>
+                    <Text>{client.clientType === 'cpf' ? 'Pessoa Física' : "Pessoa Jurídica"}</Text>
                 </View>
             </View>
             <View style={ClientCardStyle.content}>
@@ -54,7 +52,7 @@ export default function ClientCard({clientName, type, email, phone, deleteFuncti
                         size={16}
                     />                
                     <Text>
-                        &nbsp;{email}
+                        &nbsp;{client.email}
                     </Text>
                 </View>
                 <View style={ClientCardStyle.dualContent}>
@@ -63,13 +61,12 @@ export default function ClientCard({clientName, type, email, phone, deleteFuncti
                         size={16}
                     />                
                     <Text>
-                        &nbsp;{phone}
+                        &nbsp;{client.phones[0]}
                     </Text>
                 </View>
             </View>
             <TouchableOpacity
                 activeOpacity={0.6}
-                onPress={seeMoreFunction}
             >
                 <Text 
                     style={ClientCardStyle.link}
