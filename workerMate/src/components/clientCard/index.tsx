@@ -1,17 +1,33 @@
-import { TouchableOpacity, View } from "react-native";
-import { Button, Icon, Text } from "react-native-paper";
+import { Alert, TouchableOpacity, View } from "react-native";
+import { Icon, Text } from "react-native-paper";
 import { ClientCardStyle } from "./style";
-import { Client } from "@/app/(tabs)/clients";
-import { deleteClient } from "@/libs/storage";
+import { Client } from "@/libs/storage";
+import { useClientContext } from "@/contexts/clientContext";
 
 export interface ClientCardProps {
     client: Client;
 }
 
 export default function ClientCard({client}: ClientCardProps) {
-    async function handleDelete(){
-        await deleteClient(client)
-    }
+    const {removeClients} = useClientContext();
+
+    const confirmDeleteClient = () => {
+        Alert.alert(
+            'Excluir Cliente',
+            'Tem certeza de que deseja excluir este cliente?',
+            [
+                {
+                    text: 'Cancelar',
+                },
+                {
+                    text: 'Excluir',
+                    onPress: () => removeClients(client),
+                },
+            ],
+            { cancelable: true }
+        );
+    };
+
     return (
         <View style={ClientCardStyle.container}>
             <View style={ClientCardStyle.content}>
@@ -30,7 +46,7 @@ export default function ClientCard({client}: ClientCardProps) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        onPress={handleDelete}
+                        onPress={confirmDeleteClient}
                     >
                         <Icon
                             source="delete-outline"

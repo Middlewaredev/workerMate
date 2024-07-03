@@ -3,14 +3,15 @@ import DefaultInput from "@/components/defaultInput";
 import Header from "@/components/header";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import TextAreaInput from "@/components/textAreaInput";
+import { useClientContext } from "@/contexts/clientContext";
 import { layoutStyle } from "@/styles/layout";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Text } from "react-native-paper";
 
 export default function AddClient() {
 
+    const {addClient} = useClientContext();
     const [clientType, setClientType] = useState('cpf');
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
@@ -28,20 +29,37 @@ export default function AddClient() {
     const [state, setState] = useState('');
     const [notes, setNotes] = useState('');
     
+    const clearFields = () => {
+        setName("");
+        setCpf("");
+        setCnpj("");
+        setSocialReason("");
+        setEmail("");
+        setPhone1("");
+        setPhone2("");
+        setCep("");
+        setAddress("");
+        setNumber("");
+        setComplement("");
+        setNeighborhood("");
+        setCity("");
+        setState("");
+        setNotes("");
+    };
 
     const handleClientTypeChange = (value: string) => {
         setClientType(value);
     };
 
-    const handleSaveClient = async () => {
+    const handleSaveClient = () => {
         const newClient = {
             name,
             clientType,
-            cpf: clientType === 'cpf' ? cpf : null,
-            cnpj: clientType === 'cnpj' ? cnpj : null,
-            socialReason: clientType === 'cnpj' ? socialReason : null,
+            cpf: clientType === "cpf" ? cpf : undefined,
+            cnpj: clientType === "cnpj" ? cnpj : undefined,
+            socialReason: clientType === "cnpj" ? socialReason : undefined,
             email,
-            phones: [phone1, phone2],
+            phones: [phone1, phone2].filter(Boolean), 
             address: {
                 cep,
                 address,
@@ -54,14 +72,8 @@ export default function AddClient() {
             notes,
         };
 
-        try {
-            const clientsData = await AsyncStorage.getItem('@workermate:clients');
-            const clients = clientsData ? JSON.parse(clientsData) : [];
-            clients.push(newClient);
-            await AsyncStorage.setItem('@workermate:clients', JSON.stringify(clients));
-        } catch (error) {
-            console.error(error);
-        }
+        addClient(newClient);
+        clearFields();
     };
 
     return (
@@ -74,6 +86,7 @@ export default function AddClient() {
                     <DefaultInput 
                         label="Nome"
                         textChange={setName}
+                        value={name}
                     />
                     <Text style={layoutStyle.topic}>
                         Tipo de cliente
@@ -86,16 +99,19 @@ export default function AddClient() {
                             <DefaultInput 
                                 label="CPF"
                                 textChange={setCpf}
+                                value={cpf}
                             />
                         :
                             <>
                                 <DefaultInput 
                                     label="CNPJ"
                                     textChange={setCnpj}
+                                    value={cnpj}
                                 />
                                 <DefaultInput 
                                     label="Razão Social"
                                     textChange={setSocialReason}
+                                    value={socialReason}
                                 />
                             </>
                     }
@@ -105,14 +121,17 @@ export default function AddClient() {
                     <DefaultInput 
                         label="E-mail"
                         textChange={setEmail}
+                        value={email}
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
                         textChange={setPhone1}
+                        value={phone1}
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
                         textChange={setPhone2}
+                        value={phone2}
                     />
                     <Text style={layoutStyle.topic}>
                         Endereço
@@ -120,30 +139,37 @@ export default function AddClient() {
                     <DefaultInput 
                         label="CEP"
                         textChange={setCep}
+                        value={cep}
                     />
                     <DefaultInput 
                         label="Logradouro (rua, avedina, etc.)"
                         textChange={setAddress}
+                        value={address}
                     />
                     <DefaultInput 
                         label="Número"
                         textChange={setNumber}
+                        value={number}
                     />
                     <DefaultInput 
                         label="Complemento (apto, casa, etc.)"
                         textChange={setComplement}
+                        value={complement}
                     />
                     <DefaultInput 
                         label="Bairro"
                         textChange={setNeighborhood}
+                        value={neighborhood}
                     />
                     <DefaultInput 
                         label="Cidade"
                         textChange={setCity}
+                        value={city}
                     />
                     <DefaultInput 
                         label="Estado"
                         textChange={setState}
+                        value={state}
                     />
                     <Text style={layoutStyle.topic}>
                         Detalhes
@@ -151,6 +177,7 @@ export default function AddClient() {
                     <TextAreaInput 
                         label="Anotações"
                         textChange={setNotes}
+                        value={notes}
                     />
                 </View>
             </ScrollView>

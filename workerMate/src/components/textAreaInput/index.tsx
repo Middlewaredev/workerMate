@@ -3,10 +3,11 @@ import { TextAreaInputStyle } from "./style";
 
 export interface TextAreaInputProps {
     label: string;
+    value?: string;
     textChange?: (value: string) => void;
 }
 
-export default function TextAreaInput({ label, textChange }: TextAreaInputProps) {
+export default function TextAreaInput({ label, value, textChange }: TextAreaInputProps) {
     return (
         <TextInput
             mode='outlined'
@@ -15,6 +16,7 @@ export default function TextAreaInput({ label, textChange }: TextAreaInputProps)
             multiline={true}
             numberOfLines={3}
             onChangeText={textChange}
+            value={value}
         />
     );
 }
