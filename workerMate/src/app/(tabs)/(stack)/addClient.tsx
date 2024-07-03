@@ -5,7 +5,22 @@ import MainButton, { ButtonType } from "@/components/mainButton";
 import TextAreaInput from "@/components/textAreaInput";
 import { useClientContext } from "@/contexts/clientContext";
 import { layoutStyle } from "@/styles/layout";
-import { validateAddress, validateCep, validateCity, validateCnpj, validateComplement, validateCpf, validateEmail, validateNeighborhood, validateNome, validateNumber, validatePhone, validatePhoneEmpty, validateSocialReason, validateState } from "@/utils/validation";
+import { 
+    validateAddress,
+    validateCep,
+    validateCity,
+    validateCnpj,
+    validateComplement,
+    validateCpf,
+    validateEmail,
+    validateNeighborhood,
+    validateNome,
+    validateNumber,
+    validatePhone,
+    validatePhoneEmpty,
+    validateSocialReason,
+    validateState
+} from "@/utils/validation";
 import { useNavigation } from "expo-router";
 import { useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
@@ -13,7 +28,7 @@ import { Text } from "react-native-paper";
 
 export default function AddClient() {
 
-    const {addClient} = useClientContext();
+    const {addClient, isUnique} = useClientContext();
     const [clientType, setClientType] = useState('cpf');
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
@@ -54,13 +69,27 @@ export default function AddClient() {
     };
 
     const handleCpf = () => {
-        const error = validateCpf(cpf);
+        const unique = isUnique(cpf, 'cpf');
+        let error = ''
+        if(unique){
+            error = 'Já existe um cliente com este CPF'
+            setCpfError(error)
+            return false
+        }
+        error = validateCpf(cpf);
         setCpfError(error);
         return error === '';
     };
 
     const handleCnpj = () => {
-        const error = validateCnpj(cnpj);
+        const unique = isUnique(cnpj, 'cnpj');
+        let error = ''
+        if(unique){
+            error = 'Já existe um cliente com este CPF'
+            setCnpjError(error)
+            return false
+        }
+        error = validateCnpj(cnpj);
         setCnpjError(error);
         return error === '';
     };
@@ -160,8 +189,8 @@ export default function AddClient() {
             valid = handleCpf() && valid;
         } else {
             valid = handleCnpj() && valid;
+            valid = handleSocialReason() && valid;
         }
-        valid = handleSocialReason() && valid;
         valid = handleEmail() && valid;
         valid = handlePhone() && valid;
         valid = handlePhone2() && valid;

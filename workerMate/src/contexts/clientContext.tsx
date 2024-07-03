@@ -6,6 +6,7 @@ interface ClienteContextType{
     addClient: (client: Client) => void;
     removeClients: (client: Client) => void;
     updateClientFunction: (client: Client, newClient: Client) => void;
+    isUnique: (value: string, type: string) => boolean;
 }
 
 const ClientContext = createContext<ClienteContextType | undefined>(undefined);
@@ -43,8 +44,16 @@ export const ClientProvider = ({ children }) => {
         
     }
 
+    const isUnique = (value: string, type: string) => {
+        if(type === 'cpf'){
+            return clients.some(c => c.cpf === value)
+        } else {
+            return clients.some(c => c.cnpj === value)
+        }
+    }
+
     return (
-        <ClientContext.Provider value={{clients, addClient, removeClients, updateClientFunction, }}>
+        <ClientContext.Provider value={{clients, addClient, removeClients, updateClientFunction, isUnique}}>
             {children}
         </ClientContext.Provider>
     )
