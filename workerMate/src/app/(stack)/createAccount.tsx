@@ -1,70 +1,81 @@
 import { useEffect, useState } from "react";
 import { SafeAreaView, TouchableOpacity, View } from "react-native";
-import { Checkbox, Text  } from "react-native-paper";
+import { Checkbox, Text } from "react-native-paper";
 import { layoutStyle } from "@/styles/layout";
 import DefaultInput from "@/components/defaultInput";
-import MainButton, {ButtonType} from "@/components/mainButton";
+import MainButton, { ButtonType } from "@/components/mainButton";
 import Google from "@/components/google";
 import { Link, useNavigation } from "expo-router";
 import colors from "@/constants/colors";
 import { textStyle } from "@/styles/text";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { validateNome, validateEmail, validatePassword } from "@/utils/validation";
 
-
-export default function Welcome() {
-
+export default function CreateAccount() {
     const [email, setEmail] = useState('');
-    const [nome, setNome] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [checked, setChecked] = useState(false);
     const navigation = useNavigation();
 
-    const validateNome = (nome: string) => {
-        // Expressão regular para validar nome e sobrenome
-        const re = /^[A-Za-z]+(?:\s[A-Za-z]+)+$/;
-        return re.test(nome);
-    };
+    const [nameError, setNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     useEffect(() => {
         const key = '@workermate:userEmail';
         async function loadEmail() {
-            try{
+            try {
                 const data = await AsyncStorage.getItem(key);
-                if(data){
-                    setEmail(data)
+                if (data) {
+                    setEmail(data);
                 }
-            } catch (error){
-                console.error(error)
+            } catch (error) {
+                console.error(error);
             }
         }
         loadEmail();
-    }, [])
+    }, []);
 
-    const validateEmail = (email: string) => {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
+    const validateAllFields = () => {
+        let valid = true;
+
+        // Validate Name
+        valid = handleName() && valid;
+
+        // Validate Email
+        valid = handleEmail() && valid;
+
+        // Validate Password
+        valid = handlePassword() && valid;
+
+        return valid;
     };
-    
-    const validatePassword = (password: string) => {
-        const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return re.test(password);
+
+    const handleName = () => {
+        const error = validateNome(name);
+        setNameError(error);
+        return error === '';
+    };
+
+    const handleEmail = () => {
+        const error = validateEmail(email);
+        setEmailError(error);
+        return error === '';
+    };
+
+    const handlePassword = () => {
+        const error = validatePassword(password);
+        setPasswordError(error);
+        return error === '';
     };
 
     const handleSignUp = async () => {
-        if (!validateNome(nome)) {
-            setError('Nome inválido, precisa de nome e sobrenome');
-            return;
-        }
+        const isValid = validateAllFields();
 
-        if (!validateEmail(email)) {
-            setError('E-mail inválido');
-            return;
-        }
-
-        if (!validatePassword(password)) {
-            setError('A senha precisa ter pelo menos 8 caracteres,\nincluindo letras maiúsculas e minusculas,\nnumeros e caracteres especiais');
+        if (!isValid) {
             return;
         }
 
@@ -76,63 +87,48 @@ export default function Welcome() {
         try {
             await AsyncStorage.setItem('@workermate:userEmail', email);
             await AsyncStorage.setItem('@workermate:userPassword', password);
-            await AsyncStorage.setItem('@workermate:userNome', nome);
-            // Navigate to login screen
+            await AsyncStorage.setItem('@workermate:userName', name);
             navigation.navigate('login');
         } catch (error) {
-            setError('Failed to save user data');
+            console.error('Failed to save user data');
         }
-    }
+    };
 
     return (
-        <SafeAreaView
-            style={layoutStyle.containerCentered}
-        >
-            <Text
-                variant='displayMedium'
-            >
-                Crie sua Conta
-            </Text>
+        <SafeAreaView style={layoutStyle.containerCentered}>
+            <Text variant='displayMedium'>Create Your Account</Text>
             <DefaultInput
                 label="Nome"
-                textChange={setNome}
+                textChange={setName}
+                errorMessage={nameError}
             />
             <DefaultInput
-                label="E-mail"
+                label="Email"
                 textChange={setEmail}
                 value={email}
+                errorMessage={emailError}
             />
             <DefaultInput
                 label="Senha"
                 secure={true}
                 textChange={setPassword}
+                errorMessage={passwordError}
             />
             <DefaultInput
                 label="Confirmar senha"
                 secure={true}
                 textChange={setConfirmPassword}
             />
-            {
-                error ? 
-                    <Text 
-                        variant='bodySmall'
-                        style={textStyle.error}
-                    >
-                        {error}
-                    </Text> 
-                : 
-                    null
-            }
-            <View style={
-                {
-                    flexDirection: 'row',
-                    width: '80%',
-                    alignItems: 'center'
-            }}>
+            {error ? (
+                <Text variant='bodySmall' style={textStyle.error}>
+                    {error}
+                </Text>
+            ) : null}
+            <View style={{ flexDirection: 'row', width: '80%', alignItems: 'center' }}>
                 <Checkbox
                     status={checked ? 'checked' : 'unchecked'}
                     onPress={() => {
-                      setChecked(!checked);
+                        setChecked(!checked);
                     }}
                     uncheckedColor={colors.border}
                     color={colors.primary}
@@ -155,12 +151,8 @@ export default function Welcome() {
             />
 
             <Link href="login" asChild>
-                <TouchableOpacity
-                    activeOpacity={0.6}
-                >
-                    <Text
-                        style={layoutStyle.welcomeFooter}
-                    >
+                <TouchableOpacity activeOpacity={0.6}>
+                    <Text style={layoutStyle.welcomeFooter}>
                         Já tem conta? Entrar
                     </Text>
                 </TouchableOpacity>

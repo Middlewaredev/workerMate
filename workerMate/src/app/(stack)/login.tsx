@@ -6,7 +6,7 @@ import { layoutStyle } from "@/styles/layout";
 import { textStyle } from "@/styles/text";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 
@@ -15,6 +15,21 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const key = '@workermate:userEmail';
+        async function loadEmail() {
+            try {
+                const data = await AsyncStorage.getItem(key);
+                if (data) {
+                    setEmail(data);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        loadEmail();
+    }, []);
 
     const handleLogin = async() =>{
         const emailKey = "@workermate:userEmail";
@@ -45,6 +60,7 @@ export default function Login() {
             <DefaultInput
                 label="E-mail"
                 textChange={setEmail}
+                value={email}
             />
             <DefaultInput
                 label="Senha"

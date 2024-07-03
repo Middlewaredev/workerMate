@@ -1,15 +1,18 @@
-import { Icon, TextInput } from "react-native-paper";
+import { Icon, Text, TextInput } from "react-native-paper";
 import { DefaultInputStyle } from "./style";
+import { textStyle } from "@/styles/text";
 
 export interface DefaultInputProps {
     label: string;
     value?: string;
     icon?: string;
     secure?: boolean;
+    errorMessage?: string;
     textChange?: (value: string) => void;
+    blurFunction?: () => void;
 }
 
-export default function DefaultInput({ label, value, icon, secure, textChange }: DefaultInputProps) {
+export default function DefaultInput({ label, value, icon, secure, errorMessage, textChange, blurFunction }: DefaultInputProps) {
     const labelContent = (
         <>
             {icon &&
@@ -22,13 +25,25 @@ export default function DefaultInput({ label, value, icon, secure, textChange }:
         </>
     )
     return (
-        <TextInput
-            mode='outlined'
-            label={labelContent}
-            style={DefaultInputStyle.input}
-            secureTextEntry={secure}
-            onChangeText={textChange}
-            value={value}
-        />
+        <>
+            <TextInput
+                mode='outlined'
+                label={labelContent}
+                style={DefaultInputStyle.input}
+                secureTextEntry={secure}
+                onChangeText={textChange}
+                onBlur={blurFunction}
+                value={value}
+                error={errorMessage ? true: false}
+            />
+            { errorMessage &&
+                <Text
+                    variant='bodySmall'
+                    style={textStyle.error}
+                >
+                    {errorMessage}
+                </Text>
+            }
+        </>
     );
 }
