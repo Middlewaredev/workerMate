@@ -1,6 +1,5 @@
 import { Text } from "react-native-paper";
 import { MainButtonStyle } from "./style";
-import colors from "@/constants/colors";
 import { TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 

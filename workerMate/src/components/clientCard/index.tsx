@@ -3,6 +3,7 @@ import { Icon, Text } from "react-native-paper";
 import { ClientCardStyle } from "./style";
 import { Client } from "@/libs/storage";
 import { useClientContext } from "@/contexts/clientContext";
+import { Link } from "expo-router";
 
 export interface ClientCardProps {
     client: Client;
@@ -10,6 +11,9 @@ export interface ClientCardProps {
 
 export default function ClientCard({client}: ClientCardProps) {
     const {removeClients} = useClientContext();
+    const link =  `clientDetails/${client.clientType === "cpf" ? client.cpf : client.cnpj}`;
+    const disabled = 'true'
+    const enabled = 'false'
 
     const confirmDeleteClient = () => {
         Alert.alert(
@@ -35,15 +39,16 @@ export default function ClientCard({client}: ClientCardProps) {
                     {client.name}
                 </Text>
                 <View style={ClientCardStyle.icons}>
-                    <TouchableOpacity
-                        activeOpacity={0.6}
-                        
-                    >
-                        <Icon
-                            source="account-edit-outline"
-                            size={24}
-                        />
-                    </TouchableOpacity>
+                    <Link href={{ pathname: link, params: { disable: disabled } }} asChild>
+                        <TouchableOpacity
+                            activeOpacity={0.6}
+                        >
+                            <Icon
+                                source="account-edit-outline"
+                                size={24}
+                            />
+                        </TouchableOpacity>
+                    </Link>
                     <TouchableOpacity
                         activeOpacity={0.6}
                         onPress={confirmDeleteClient}
@@ -81,15 +86,17 @@ export default function ClientCard({client}: ClientCardProps) {
                     </Text>
                 </View>
             </View>
-            <TouchableOpacity
-                activeOpacity={0.6}
-            >
-                <Text 
-                    style={ClientCardStyle.link}
+            <Link href={{ pathname: link, params: { disable: enabled } }} asChild>
+                <TouchableOpacity
+                    activeOpacity={0.6}
                 >
-                    Ver mais
-                </Text>
-            </TouchableOpacity>
+                    <Text 
+                        style={ClientCardStyle.link}
+                    >
+                        Ver mais
+                    </Text>
+                </TouchableOpacity>
+            </Link>
         </View>
     );
 }

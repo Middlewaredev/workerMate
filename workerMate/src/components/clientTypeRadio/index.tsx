@@ -6,9 +6,10 @@ import { ClientTypeRadioStyle } from "./style";
 
 export interface ClientTypeRadioProps {
     onValueChange: (value: string) => void;
+    disabled?: boolean;
 }
 
-export default function ClientTypeRadio({onValueChange}: ClientTypeRadioProps) {
+export default function ClientTypeRadio({onValueChange, disabled}: ClientTypeRadioProps) {
 
     const [checked, setChecked] = useState('cpf');
 
@@ -25,6 +26,7 @@ export default function ClientTypeRadio({onValueChange}: ClientTypeRadioProps) {
                     status={ checked === 'cpf' ? 'checked' : 'unchecked' }
                     onPress={() => handlePress('cpf')}
                     color={colors.primary}
+                    disabled={disabled}
                 />
                 <Text variant='bodySmall'>Pessoa física</Text>
             </View>
@@ -34,6 +36,7 @@ export default function ClientTypeRadio({onValueChange}: ClientTypeRadioProps) {
                     status={ checked === 'cnpj' ? 'checked' : 'unchecked' }
                     onPress={() => handlePress('cnpj')}
                     color={colors.primary}
+                    disabled={disabled}
                 />
                 <Text variant='bodySmall'>Pessoa jurídica</Text>
             </View>

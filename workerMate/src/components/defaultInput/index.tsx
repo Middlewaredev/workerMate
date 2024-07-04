@@ -8,11 +8,12 @@ export interface DefaultInputProps {
     icon?: string;
     secure?: boolean;
     errorMessage?: string;
+    disabled?: boolean
     textChange?: (value: string) => void;
     blurFunction?: () => void;
 }
 
-export default function DefaultInput({ label, value, icon, secure, errorMessage, textChange, blurFunction }: DefaultInputProps) {
+export default function DefaultInput({ label, value, icon, secure, errorMessage, disabled, textChange, blurFunction }: DefaultInputProps) {
     const labelContent = (
         <>
             {icon &&
@@ -35,6 +36,7 @@ export default function DefaultInput({ label, value, icon, secure, errorMessage,
                 onBlur={blurFunction}
                 value={value}
                 error={errorMessage ? true: false}
+                disabled={disabled}
             />
             { errorMessage &&
                 <Text

@@ -1,9 +1,11 @@
 import ClientTypeRadio from "@/components/clientTypeRadio";
 import DefaultInput from "@/components/defaultInput";
-import Header from "@/components/header";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import TextAreaInput from "@/components/textAreaInput";
+import TwoButtons from "@/components/twoButtons";
+import colors from "@/constants/colors";
 import { useClientContext } from "@/contexts/clientContext";
+import { Client } from "@/libs/storage";
 import { layoutStyle } from "@/styles/layout";
 import { 
     validateAddress,
@@ -21,14 +23,17 @@ import {
     validateSocialReason,
     validateState
 } from "@/utils/validation";
-import { useNavigation } from "expo-router";
-import { useState } from "react";
-import { Alert, ScrollView, View } from "react-native";
-import { Text } from "react-native-paper";
+import { useFocusEffect, useLocalSearchParams, useNavigation } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import { Alert, ScrollView, TouchableOpacity, View } from "react-native";
+import { Icon, Text } from "react-native-paper";
 
-export default function AddClient() {
+export default function ClientDetails() {
 
-    const {addClient, isUnique} = useClientContext();
+    const { id, disable } = useLocalSearchParams<{id: string, disable: string}>();
+    const [client, setClient] = useState<Client | undefined>(undefined);
+    const { isUnique, clients, updateClientFunction } = useClientContext();
+
     const [clientType, setClientType] = useState('cpf');
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
@@ -45,6 +50,7 @@ export default function AddClient() {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [notes, setNotes] = useState('');
+    const [disabled, setDisabled] = useState(true);
     const navigation = useNavigation();
 
     const [nameError, setNameError] = useState('');
@@ -61,7 +67,70 @@ export default function AddClient() {
     const [neighborhoodError, setNeighborhoodError] = useState('');
     const [cityError, setCityError] = useState('');
     const [stateError, setStateError] = useState('');
+
+    const fillFields = (client: Client) => {
+        setClientType(client.clientType ? client.clientType : "");
+        setName(client.name ? client.name : "");
+        setCpf(client.cpf ? client.cpf : "");
+        setCnpj(client.cnpj ? client.cnpj : "");
+        setSocialReason(client.socialReason ? client.socialReason : "");
+        setEmail(client ? client.email : "");
+        setPhone1(client ? client.phones[0] : "");
+        setPhone2(client.phones[1] ? client.phones[1] : "");
+        setCep(client ? client.address.cep : "");
+        setAddress(client ? client.address.address : "");
+        setNumber(client ? client.address.number : "");
+        setComplement(client.address.complement ? client.address.complement : "");
+        setNeighborhood(client ? client.address.neighborhood : "");
+        setCity(client ? client.address.city : "");
+        setState(client ? client.address.state : "");
+        setNotes(client.notes ? client.notes : "");
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            setDisabled(!(disable === 'true'))
+        }, [disable])
+    );
+
+    useEffect(() => {
+        const foundClient = clients.find(client => client.cpf === id || client.cnpj === id);
+        setClient(foundClient);
+        if(foundClient){
+            fillFields(foundClient)
+        }
+    }, [id]);
     
+    const header = 
+    <View style={{
+        width: '100%',
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+        justifyContent: 'space-between'
+    }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon
+                source="arrow-left"
+                size={24}
+            />
+        </TouchableOpacity>
+        <Text variant='displayMedium'>Detalhes do Cliente</Text>
+        <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => setDisabled(!disabled)}
+        >
+            <Icon
+                source="account-edit-outline"
+                size={24}
+                color={colors.accent}
+            />
+        </TouchableOpacity>
+    </View>
+
+    
+
     const handleName = () => {
         const error = validateNome(name);
         setNameError(error);
@@ -69,12 +138,14 @@ export default function AddClient() {
     };
 
     const handleCpf = () => {
-        const unique = isUnique(cpf, 'cpf');
         let error = ''
-        if(unique){
-            error = 'Já existe um cliente com este CPF'
-            setCpfError(error)
-            return false
+        if(cpf !== client?.cpf){
+            const unique = isUnique(cpf, 'cpf');
+            if(unique){
+                error = 'Já existe um cliente com este CPF'
+                setCpfError(error)
+                return false
+            }
         }
         error = validateCpf(cpf);
         setCpfError(error);
@@ -82,12 +153,14 @@ export default function AddClient() {
     };
 
     const handleCnpj = () => {
-        const unique = isUnique(cnpj, 'cnpj');
         let error = ''
-        if(unique){
-            error = 'Já existe um cliente com este CNPJ'
-            setCnpjError(error)
-            return false
+        if(cnpj !== client?.cnpj){
+            const unique = isUnique(cnpj, 'cnpj');
+            if(unique){
+                error = 'Já existe um cliente com este CNPJ'
+                setCpfError(error)
+                return false
+            }
         }
         error = validateCnpj(cnpj);
         setCnpjError(error);
@@ -113,6 +186,7 @@ export default function AddClient() {
     }
 
     const handlePhone2 = () => {
+        console.log(phone2)
         const error = validatePhoneEmpty(phone2);
         setPhone2Error(error);
         return error === '';
@@ -160,24 +234,6 @@ export default function AddClient() {
         return error === '';
     }
 
-    const clearFields = () => {
-        setName("");
-        setCpf("");
-        setCnpj("");
-        setSocialReason("");
-        setEmail("");
-        setPhone1("");
-        setPhone2("");
-        setCep("");
-        setAddress("");
-        setNumber("");
-        setComplement("");
-        setNeighborhood("");
-        setCity("");
-        setState("");
-        setNotes("");
-    };
-
     const handleClientTypeChange = (value: string) => {
         setClientType(value);
     };
@@ -206,7 +262,7 @@ export default function AddClient() {
 
     const handleSaveClient = () => {
         let go = validateAllFields();
-        
+        console.log(go)
         if(go){
             const newClient = {
                 name,
@@ -227,10 +283,13 @@ export default function AddClient() {
                 },
                 notes,
             };
-
-            addClient(newClient);
-            clearFields();
-            navigation.navigate("clients")
+            console.log("aqui")
+            if(client){
+                console.log("Aqui também")
+                updateClientFunction(client, newClient)
+                setDisabled(true)
+                fillFields(newClient)
+            }
         } else {
             Alert.alert(
                 'Erro ao salvar o Cliente',
@@ -244,11 +303,16 @@ export default function AddClient() {
         }
     };
 
+    const handleCancel = () => {
+        if(client){
+            fillFields(client)
+        }
+        setDisabled(true)
+    }
+
     return (
         <View style={layoutStyle.container}>
-            <Header
-                title="Adicionar Cliente"
-            />
+            {header}
             <ScrollView style={layoutStyle.scroll}>
                 <View style={layoutStyle.scrollContent}>
                     <DefaultInput 
@@ -257,12 +321,14 @@ export default function AddClient() {
                         value={name}
                         blurFunction={handleName}
                         errorMessage={nameError}
+                        disabled={disabled}
                     />
                     <Text style={layoutStyle.topic}>
                         Tipo de cliente
                     </Text>
                     <ClientTypeRadio
                         onValueChange={handleClientTypeChange}
+                        disabled={disabled}
                     />
                     {
                         clientType === "cpf" ?
@@ -272,6 +338,7 @@ export default function AddClient() {
                                 value={cpf}
                                 blurFunction={handleCpf}
                                 errorMessage={cpfError}
+                                disabled={disabled}
                             />
                         :
                             <>
@@ -281,6 +348,7 @@ export default function AddClient() {
                                     value={cnpj}
                                     blurFunction={handleCnpj}
                                     errorMessage={cnpjError}
+                                    disabled={disabled}
                                 />
                                 <DefaultInput 
                                     label="Razão Social"
@@ -288,6 +356,7 @@ export default function AddClient() {
                                     value={socialReason}
                                     blurFunction={handleSocialReason}
                                     errorMessage={socialReasonError}
+                                    disabled={disabled}
                                 />
                             </>
                     }
@@ -300,6 +369,7 @@ export default function AddClient() {
                         value={email}
                         blurFunction={handleEmail}
                         errorMessage={emailError}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
@@ -307,6 +377,7 @@ export default function AddClient() {
                         value={phone1}
                         blurFunction={handlePhone}
                         errorMessage={phone1Error}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
@@ -314,6 +385,7 @@ export default function AddClient() {
                         value={phone2}
                         blurFunction={handlePhone2}
                         errorMessage={phone2Error}
+                        disabled={disabled}
                     />
                     <Text style={layoutStyle.topic}>
                         Endereço
@@ -324,6 +396,7 @@ export default function AddClient() {
                         value={cep}
                         blurFunction={handleCep}
                         errorMessage={cepError}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Logradouro (rua, avedina, etc.)"
@@ -331,6 +404,7 @@ export default function AddClient() {
                         value={address}
                         blurFunction={handleAddress}
                         errorMessage={addressError}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Número"
@@ -338,6 +412,7 @@ export default function AddClient() {
                         value={number}
                         blurFunction={handleNumber}
                         errorMessage={numberError}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Complemento (apto, casa, etc.)"
@@ -345,6 +420,7 @@ export default function AddClient() {
                         value={complement}
                         blurFunction={handleComplement}
                         errorMessage={complementError}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Bairro"
@@ -352,6 +428,7 @@ export default function AddClient() {
                         value={neighborhood}
                         blurFunction={handleNeighborhood}
                         errorMessage={neighborhoodError}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Cidade"
@@ -359,6 +436,7 @@ export default function AddClient() {
                         value={city}
                         blurFunction={handleCity}
                         errorMessage={cityError}
+                        disabled={disabled}
                     />
                     <DefaultInput 
                         label="Estado"
@@ -366,6 +444,7 @@ export default function AddClient() {
                         value={state}
                         blurFunction={handleState}
                         errorMessage={stateError}
+                        disabled={disabled}
                     />
                     <Text style={layoutStyle.topic}>
                         Detalhes
@@ -374,14 +453,20 @@ export default function AddClient() {
                         label="Anotações"
                         textChange={setNotes}
                         value={notes}
+                        disabled={disabled}
                     />
                 </View>
             </ScrollView>
-            <MainButton
-                title="Salvar Cliente"
-                type={ButtonType.primary}
-                link=""
-                pressFunction={handleSaveClient}
+            <TwoButtons
+                mainButtonTitle="Salvar"
+                mainLink=""
+                mainDisabled={disabled}
+                mainPressFunction={handleSaveClient}
+                
+                secondaryButtonTitle="Cancelar"
+                secondaryLink=""
+                secondaryDisabled={disabled}
+                secondaryPressFunction={handleCancel}
             />
         </View>
     );
