@@ -55,6 +55,21 @@ export default function TabsLayout() {
                     header: () => <PageHeader title="Clientes"/>
                 }}
             />
+            <Tabs.Screen
+                name="finances"
+                options={{
+                    tabBarIcon: ({size, color}) => (
+                        <Icon
+                            source="currency-usd"
+                            color={color}
+                            size={size}
+                        />
+                    ),
+                    title: "Financeiro",
+                    headerShown: true,
+                    header: () => <PageHeader title="Financeiro"/>
+                }}
+            />
             <Tabs.Screen 
                 name="(stack)"
                 options={{

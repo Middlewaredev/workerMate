@@ -12,7 +12,7 @@ export const layoutStyle = StyleSheet.create({
         backgroundColor: "#f5f5f5",
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
+        marginTop: 20,
         marginBottom: 10
     },
     containerJustified: {
@@ -41,5 +41,18 @@ export const layoutStyle = StyleSheet.create({
     scrollContent: {
         width: '100%',
         alignItems: 'center'
+    },
+    dropdownView: {
+        width: '80%',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: colors.border,
+        height: 30,
+        justifyContent: 'center',
+        marginBottom: 5
+    },
+    dropdown: {
+        width: '100%',
+        height: 50
     }
 })

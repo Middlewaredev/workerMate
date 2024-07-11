@@ -79,5 +79,6 @@ export const fonts = {
       fontFamily: 'Roboto_700Bold',
       fontWeight: 'bold',
       fontSize: 20,
-    }
+    },
+    titleLarge: {}
   };
