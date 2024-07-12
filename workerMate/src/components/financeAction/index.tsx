@@ -11,7 +11,7 @@ export interface FinanceActionProps {
 }
 
 export default function FinanceAction({title, link, icon}: FinanceActionProps) {
-    const mask = "•••••";
+    console.log(link)
     return (
         <Link href={link} asChild>
             <TouchableOpacity

@@ -6,7 +6,7 @@ import { Link } from "expo-router";
 export interface LineItemProps {
     title: string,
     value: string,
-    link?: string
+    link: string
 }
 
 export default function LineItem({
@@ -29,5 +29,5 @@ export default function LineItem({
             </View>
         </TouchableOpacity>
     )
-    return link ? <Link href={link} asChild>{content}</Link> : content;
+    return <Link href={link} asChild>{content}</Link>;
 }

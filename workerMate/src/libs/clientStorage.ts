@@ -20,9 +20,10 @@ export interface Client {
     notes?: string;
 }
 
+const key = "@workermate:clients";
+
 export async function loadClients(): Promise<Client[]>{
     try{
-        const key = "@workermate:clients";
         const clientsData = await AsyncStorage.getItem(key);
         let clientList : Client[] = []
         
@@ -40,7 +41,6 @@ export async function loadClients(): Promise<Client[]>{
 
 export async function deleteClient(client: Client){
     try{
-        const key = "@workermate:clients";
         const clientsData = await AsyncStorage.getItem(key);
         let clientList : Client[] = []
         
@@ -61,7 +61,6 @@ export async function deleteClient(client: Client){
 
 export async function saveClient(client: Client){
     try{
-        const key = "@workermate:clients";
         const clientsData = await AsyncStorage.getItem(key);
         let clientList : Client[] = []
 
@@ -81,7 +80,6 @@ export async function saveClient(client: Client){
 
 export async function updateClient(client: Client, updateClient: Client){
     try {
-        const key = "@workermate:clients";
         const clientsData = await AsyncStorage.getItem(key);
         let clientList: Client[] = [];
 

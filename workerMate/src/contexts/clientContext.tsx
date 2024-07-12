@@ -1,4 +1,4 @@
-import { Client, deleteClient, loadClients, saveClient, updateClient } from "@/libs/storage";
+import { Client, deleteClient, loadClients, saveClient, updateClient } from "@/libs/clientStorage";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 interface ClienteContextType{
@@ -11,7 +11,7 @@ interface ClienteContextType{
 
 const ClientContext = createContext<ClienteContextType | undefined>(undefined);
 
-export const ClientProvider = ({ children }) => {
+export const ClientProvider = ({ children }: { children: ReactNode }) => {
     const [clients, setClients] = useState<Client[]>([]);
 
     useEffect(() => {

@@ -4,6 +4,7 @@ import { ActivityIndicator } from "react-native";
 import { PaperProvider } from 'react-native-paper';
 import { Slot } from 'expo-router';
 import { ClientProvider } from '@/contexts/clientContext';
+import { ReceivableProvider } from '@/contexts/receivableContext';
 
 export default function index(){
     const [fontsLoaded] = loadFonts();
@@ -14,9 +15,11 @@ export default function index(){
 
     return (
         <ClientProvider>
-            <PaperProvider theme={theme}>
-                <Slot />
-            </PaperProvider>
+            <ReceivableProvider>
+                <PaperProvider theme={theme}>
+                    <Slot />
+                </PaperProvider>
+            </ReceivableProvider>
         </ClientProvider>
     )
     
