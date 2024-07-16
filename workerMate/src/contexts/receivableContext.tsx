@@ -5,8 +5,8 @@ import { Receivable } from "@/libs/receivableStorage";
 interface ReceivableContextType {
     receivables: Receivable[];
     addReceivable: (receivable: Receivable) => void;
-    removeReceivable: (receivable: Receivable) => void;
-    updateReceivableFunction: (oldReceivable: Receivable, newReceivable: Receivable) => void;
+    removeReceivable: (receivableId: string) => void;
+    updateReceivableFunction: (receivableId: string, newReceivable: Omit<Receivable, 'id'>) => void;
 }
 
 const ReceivableContext = createContext<ReceivableContextType | undefined>(undefined);
@@ -27,19 +27,23 @@ export const ReceivableProvider = ({ children }: { children: ReactNode }) => {
         setReceivables([...receivables, receivable])
     };
 
-    const removeReceivable = async (receivable: Receivable) => {
-        const updatedReceivables = receivables.filter(r => r.date !== receivable.date || r.clientName !== receivable.clientName || r.description !== receivable.description);
-        await deleteReceivable(receivable);
+    const removeReceivable = async (receivableId: string) => {
+        await deleteReceivable(receivableId);
+        const updatedReceivables = receivables.filter(r => r.id !== receivableId);
         setReceivables(updatedReceivables);
     }
 
-    const updateReceivableFunction = async (oldReceivable: Receivable, newReceivable: Receivable) => {
-        const receivableIndex = receivables.findIndex(r => r.date === oldReceivable.date && r.clientName === oldReceivable.clientName && r.description === oldReceivable.description);
+    const updateReceivableFunction = async (receivableId: string, newReceivable: Omit<Receivable, 'id'>) => {
+        const receivableIndex = receivables.findIndex(r => r.id === receivableId);
         if (receivableIndex !== -1) {
+            const updatedReceivable: Receivable = {
+                ...newReceivable,
+                id: receivableId,
+            };
             const updatedReceivables = [...receivables];
-            updatedReceivables[receivableIndex] = newReceivable;
+            updatedReceivables[receivableIndex] = updatedReceivable;
 
-            await updateReceivable(oldReceivable, newReceivable);
+            await updateReceivable(receivableId, updatedReceivable);
 
             setReceivables(updatedReceivables);
         }

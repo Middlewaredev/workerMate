@@ -32,7 +32,7 @@ export default function Finances() {
                     title="Receita"
                     line1Title="Recebido"
                     line1Value="0,00"
-                    line1Link="(stack)/recebidos/1"
+                    line1Link="(stack)/receivables/1"
                     line2Title="A receber"
                     line2Value="0,00"
                     line2Link="(stack)/recebidos/1"

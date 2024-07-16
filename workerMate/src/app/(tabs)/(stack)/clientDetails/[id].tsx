@@ -23,7 +23,7 @@ import {
     validateSocialReason,
     validateState
 } from "@/utils/validation";
-import { useFocusEffect, useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, ScrollView, TouchableOpacity, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
@@ -110,7 +110,7 @@ export default function ClientDetails() {
         marginBottom: 20,
         justifyContent: 'space-between'
     }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => router.replace("clients")}>
             <Icon
                 source="arrow-left"
                 size={24}
@@ -262,7 +262,6 @@ export default function ClientDetails() {
 
     const handleSaveClient = () => {
         let go = validateAllFields();
-        console.log(go)
         if(go){
             const newClient = {
                 name,
@@ -283,9 +282,7 @@ export default function ClientDetails() {
                 },
                 notes,
             };
-            console.log("aqui")
             if(client){
-                console.log("Aqui também")
                 updateClientFunction(client, newClient)
                 setDisabled(true)
                 fillFields(newClient)
@@ -322,6 +319,7 @@ export default function ClientDetails() {
                         blurFunction={handleName}
                         errorMessage={nameError}
                         disabled={disabled}
+                        contentType="PlainText"
                     />
                     <Text style={layoutStyle.topic}>
                         Tipo de cliente
@@ -339,6 +337,7 @@ export default function ClientDetails() {
                                 blurFunction={handleCpf}
                                 errorMessage={cpfError}
                                 disabled={disabled}
+                                contentType="CPF"
                             />
                         :
                             <>
@@ -349,6 +348,7 @@ export default function ClientDetails() {
                                     blurFunction={handleCnpj}
                                     errorMessage={cnpjError}
                                     disabled={disabled}
+                                    contentType="CNPJ"
                                 />
                                 <DefaultInput 
                                     label="Razão Social"
@@ -357,6 +357,7 @@ export default function ClientDetails() {
                                     blurFunction={handleSocialReason}
                                     errorMessage={socialReasonError}
                                     disabled={disabled}
+                                    contentType="PlainText"
                                 />
                             </>
                     }
@@ -370,6 +371,7 @@ export default function ClientDetails() {
                         blurFunction={handleEmail}
                         errorMessage={emailError}
                         disabled={disabled}
+                        contentType="Email"
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
@@ -378,6 +380,7 @@ export default function ClientDetails() {
                         blurFunction={handlePhone}
                         errorMessage={phone1Error}
                         disabled={disabled}
+                        contentType="Phone"
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
@@ -386,6 +389,7 @@ export default function ClientDetails() {
                         blurFunction={handlePhone2}
                         errorMessage={phone2Error}
                         disabled={disabled}
+                        contentType="Phone"
                     />
                     <Text style={layoutStyle.topic}>
                         Endereço
@@ -397,6 +401,7 @@ export default function ClientDetails() {
                         blurFunction={handleCep}
                         errorMessage={cepError}
                         disabled={disabled}
+                        contentType="CEP"
                     />
                     <DefaultInput 
                         label="Logradouro (rua, avedina, etc.)"
@@ -405,6 +410,7 @@ export default function ClientDetails() {
                         blurFunction={handleAddress}
                         errorMessage={addressError}
                         disabled={disabled}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Número"
@@ -413,6 +419,7 @@ export default function ClientDetails() {
                         blurFunction={handleNumber}
                         errorMessage={numberError}
                         disabled={disabled}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Complemento (apto, casa, etc.)"
@@ -421,6 +428,7 @@ export default function ClientDetails() {
                         blurFunction={handleComplement}
                         errorMessage={complementError}
                         disabled={disabled}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Bairro"
@@ -429,6 +437,7 @@ export default function ClientDetails() {
                         blurFunction={handleNeighborhood}
                         errorMessage={neighborhoodError}
                         disabled={disabled}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Cidade"
@@ -437,6 +446,7 @@ export default function ClientDetails() {
                         blurFunction={handleCity}
                         errorMessage={cityError}
                         disabled={disabled}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Estado"
@@ -445,6 +455,7 @@ export default function ClientDetails() {
                         blurFunction={handleState}
                         errorMessage={stateError}
                         disabled={disabled}
+                        contentType="PlainText"
                     />
                     <Text style={layoutStyle.topic}>
                         Detalhes

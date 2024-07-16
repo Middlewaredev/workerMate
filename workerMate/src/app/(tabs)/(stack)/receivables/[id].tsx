@@ -6,8 +6,9 @@ import { useMemo } from "react";
 import { Icon, Text } from "react-native-paper";
 import Footer from "@/components/footer";
 import colors from "@/constants/colors";
+import ReceivableCard from "@/components/receivableCard";
 
-export default function Recebidos() {
+export default function Receivables() {
 
     const { receivables } = useReceivableContext();
 
@@ -23,7 +24,6 @@ export default function Recebidos() {
             }
             acc[date].items.push(receivable);
             acc[date].total += receivable.value;
-            console.log(acc)
             return acc;
         }, {})
         return Object.values(groups);
@@ -38,11 +38,11 @@ export default function Recebidos() {
         <FlatList
             data={groupedReceivables}
             keyExtractor={(item, index) => index.toString()}
-            style={{flex: 1}}
+            style={{flex: 1, width: '100%'}}
             renderItem={({item}) => (
-                <View>
-                    <Text>{item.date}</Text>
-                </View>
+                <ReceivableCard
+                    group={item}
+                />
             )}
         />
     )
@@ -62,6 +62,7 @@ export default function Recebidos() {
         <View style={layoutStyle.container}>
             <Header
                 title="A receber"
+                returnTo="finances"
             />
             {
                 receivables.length !== 0
@@ -69,8 +70,8 @@ export default function Recebidos() {
                 : emptyContent
             }
             <Footer
-                link=""
-                value={totalSum.toFixed(2).toString()}
+                link="(stack)/addReceivable"
+                value={totalSum.toFixed(2)}
             />
         </View>
     );

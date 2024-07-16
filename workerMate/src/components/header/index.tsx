@@ -1,17 +1,23 @@
 import { TouchableOpacity, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
 import { HeaderStyle } from "./style";
-import { useNavigation } from "expo-router";
+import { router } from "expo-router";
 
 export interface HeaderProps{
     title: string;
+    returnTo?: string;
 }
 
-export default function Header({title}: HeaderProps) {
-    const navigation = useNavigation();
+export default function Header({title, returnTo}: HeaderProps) {
     return (
         <View style={HeaderStyle.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => {
+                if(returnTo){
+                    router.replace(returnTo)
+                } else {
+                    router.back()
+                }
+            }}>
                 <Icon 
                     source="arrow-left"
                     size={24}

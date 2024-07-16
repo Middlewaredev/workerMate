@@ -8,8 +8,9 @@ export default function TabsStackLayout (){
             }}
         >
             <Stack.Screen name="addClient" />
+            <Stack.Screen name="addReceivable" />
             <Stack.Screen name="clientDetails/[id]" />
-            <Stack.Screen name="recebido/[id]" />
+            <Stack.Screen name="receivables/[id]" />
         </Stack>
     )
 }

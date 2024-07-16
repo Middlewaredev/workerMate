@@ -101,23 +101,27 @@ export default function CreateAccount() {
                 label="Nome"
                 textChange={setName}
                 errorMessage={nameError}
+                contentType="PlainText"
             />
             <DefaultInput
                 label="Email"
                 textChange={setEmail}
                 value={email}
                 errorMessage={emailError}
+                contentType="Email"
             />
             <DefaultInput
                 label="Senha"
                 secure={true}
                 textChange={setPassword}
                 errorMessage={passwordError}
+                contentType="PlainText"
             />
             <DefaultInput
                 label="Confirmar senha"
                 secure={true}
                 textChange={setConfirmPassword}
+                contentType="PlainText"
             />
             {error ? (
                 <Text variant='bodySmall' style={textStyle.error}>

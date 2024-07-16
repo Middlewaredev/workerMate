@@ -10,7 +10,7 @@ export enum ButtonType {
 
 export interface MainButtonProps {
     title: string;
-    link: string;
+    link?: string;
     type: ButtonType;
     disabled?: boolean;
     pressFunction?: () => void; 

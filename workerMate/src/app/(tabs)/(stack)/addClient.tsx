@@ -21,7 +21,7 @@ import {
     validateSocialReason,
     validateState
 } from "@/utils/validation";
-import { useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
 import { Text } from "react-native-paper";
@@ -45,7 +45,6 @@ export default function AddClient() {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [notes, setNotes] = useState('');
-    const navigation = useNavigation();
 
     const [nameError, setNameError] = useState('');
     const [cpfError, setCpfError] = useState('');
@@ -230,7 +229,7 @@ export default function AddClient() {
 
             addClient(newClient);
             clearFields();
-            navigation.navigate("clients")
+            router.replace('clients')
         } else {
             Alert.alert(
                 'Erro ao salvar o Cliente',
@@ -248,6 +247,7 @@ export default function AddClient() {
         <View style={layoutStyle.container}>
             <Header
                 title="Adicionar Cliente"
+                returnTo="clients"
             />
             <ScrollView style={layoutStyle.scroll}>
                 <View style={layoutStyle.scrollContent}>
@@ -257,6 +257,7 @@ export default function AddClient() {
                         value={name}
                         blurFunction={handleName}
                         errorMessage={nameError}
+                        contentType='PlainText'
                     />
                     <Text style={layoutStyle.topic}>
                         Tipo de cliente
@@ -272,6 +273,7 @@ export default function AddClient() {
                                 value={cpf}
                                 blurFunction={handleCpf}
                                 errorMessage={cpfError}
+                                contentType="CPF"
                             />
                         :
                             <>
@@ -281,6 +283,7 @@ export default function AddClient() {
                                     value={cnpj}
                                     blurFunction={handleCnpj}
                                     errorMessage={cnpjError}
+                                    contentType="CNPJ"
                                 />
                                 <DefaultInput 
                                     label="Razão Social"
@@ -288,6 +291,7 @@ export default function AddClient() {
                                     value={socialReason}
                                     blurFunction={handleSocialReason}
                                     errorMessage={socialReasonError}
+                                    contentType="PlainText"
                                 />
                             </>
                     }
@@ -300,6 +304,7 @@ export default function AddClient() {
                         value={email}
                         blurFunction={handleEmail}
                         errorMessage={emailError}
+                        contentType="Email"
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
@@ -307,6 +312,7 @@ export default function AddClient() {
                         value={phone1}
                         blurFunction={handlePhone}
                         errorMessage={phone1Error}
+                        contentType="Phone"
                     />
                     <DefaultInput 
                         label="Telefone com DDD"
@@ -314,6 +320,7 @@ export default function AddClient() {
                         value={phone2}
                         blurFunction={handlePhone2}
                         errorMessage={phone2Error}
+                        contentType="Phone"
                     />
                     <Text style={layoutStyle.topic}>
                         Endereço
@@ -324,6 +331,7 @@ export default function AddClient() {
                         value={cep}
                         blurFunction={handleCep}
                         errorMessage={cepError}
+                        contentType="CEP"
                     />
                     <DefaultInput 
                         label="Logradouro (rua, avedina, etc.)"
@@ -331,6 +339,7 @@ export default function AddClient() {
                         value={address}
                         blurFunction={handleAddress}
                         errorMessage={addressError}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Número"
@@ -338,6 +347,7 @@ export default function AddClient() {
                         value={number}
                         blurFunction={handleNumber}
                         errorMessage={numberError}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Complemento (apto, casa, etc.)"
@@ -345,6 +355,7 @@ export default function AddClient() {
                         value={complement}
                         blurFunction={handleComplement}
                         errorMessage={complementError}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Bairro"
@@ -352,6 +363,7 @@ export default function AddClient() {
                         value={neighborhood}
                         blurFunction={handleNeighborhood}
                         errorMessage={neighborhoodError}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Cidade"
@@ -359,6 +371,7 @@ export default function AddClient() {
                         value={city}
                         blurFunction={handleCity}
                         errorMessage={cityError}
+                        contentType="PlainText"
                     />
                     <DefaultInput 
                         label="Estado"
@@ -366,6 +379,7 @@ export default function AddClient() {
                         value={state}
                         blurFunction={handleState}
                         errorMessage={stateError}
+                        contentType="PlainText"
                     />
                     <Text style={layoutStyle.topic}>
                         Detalhes

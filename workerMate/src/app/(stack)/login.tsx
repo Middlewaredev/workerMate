@@ -61,11 +61,13 @@ export default function Login() {
                 label="E-mail"
                 textChange={setEmail}
                 value={email}
+                contentType="Email"
             />
             <DefaultInput
                 label="Senha"
                 secure={true}
                 textChange={setPassword}
+                contentType="PlainText"
             />
             <Link href="recoverPassword" asChild>
                 <TouchableOpacity

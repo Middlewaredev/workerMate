@@ -63,6 +63,7 @@ export default function index() {
             <DefaultInput
                 label="E-mail"
                 textChange={setEmail}
+                contentType="Email"
             />
             <MainButton 
                 title="Continuar"
