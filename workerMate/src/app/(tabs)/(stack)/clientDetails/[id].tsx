@@ -5,7 +5,7 @@ import TextAreaInput from "@/components/textAreaInput";
 import TwoButtons from "@/components/twoButtons";
 import colors from "@/constants/colors";
 import { useClientContext } from "@/contexts/clientContext";
-import { Client } from "@/libs/storage";
+import { Client } from "@/libs/clientStorage";
 import { layoutStyle } from "@/styles/layout";
 import { 
     validateAddress,
@@ -23,7 +23,7 @@ import {
     validateSocialReason,
     validateState
 } from "@/utils/validation";
-import { router, useFocusEffect, useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, ScrollView, TouchableOpacity, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
@@ -51,7 +51,6 @@ export default function ClientDetails() {
     const [state, setState] = useState('');
     const [notes, setNotes] = useState('');
     const [disabled, setDisabled] = useState(true);
-    const navigation = useNavigation();
 
     const [nameError, setNameError] = useState('');
     const [cpfError, setCpfError] = useState('');

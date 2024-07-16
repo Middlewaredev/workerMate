@@ -13,6 +13,10 @@ export const receivableOptionsStyle = StyleSheet.create({
     title: {
         fontSize: 12
     },
+    titleDisabled: {
+        fontSize: 12,
+        color: colors.disabled
+    },
     subtitle: {
         fontSize: 10,
         color: colors.disabled,

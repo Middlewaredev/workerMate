@@ -30,6 +30,7 @@ export default function Clients() {
                 <DefaultInput
                     label="Buscar cliente"
                     icon="account-search-outline"
+                    contentType="PlainText"
                 />
                 {clients.map((client, index) => 
                     <ClientCard

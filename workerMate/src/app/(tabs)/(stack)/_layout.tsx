@@ -11,6 +11,7 @@ export default function TabsStackLayout (){
             <Stack.Screen name="addReceivable" />
             <Stack.Screen name="clientDetails/[id]" />
             <Stack.Screen name="receivables/[id]" />
+            <Stack.Screen name="receivableDetails/[id]" />
         </Stack>
     )
 }

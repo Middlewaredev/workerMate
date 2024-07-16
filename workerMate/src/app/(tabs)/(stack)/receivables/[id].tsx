@@ -11,6 +11,7 @@ import ReceivableCard from "@/components/receivableCard";
 export default function Receivables() {
 
     const { receivables } = useReceivableContext();
+    
 
     const groupedReceivables = useMemo(() => {
         const groups = receivables.reduce((acc, receivable) => {
@@ -30,7 +31,7 @@ export default function Receivables() {
     }, [receivables]);
 
     const totalSum = useMemo(() => {
-        return groupedReceivables.reduce((acc, group) => acc + group.total, 0);
+        return groupedReceivables.reduce((acc, group) => acc + group.total, 0) as number;
     }, [groupedReceivables]);
 
 

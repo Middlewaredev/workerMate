@@ -26,6 +26,8 @@ export interface ReceivableCardProps {
 
 export default function ReceivableCard({group}: ReceivableCardProps) {
     const { removeReceivable } = useReceivableContext();
+    const disabled = 'true'
+    const enabled = 'false'
 
     const confirmDeleteClient = (id: string) => {
         Alert.alert(
@@ -62,7 +64,7 @@ export default function ReceivableCard({group}: ReceivableCardProps) {
                     <View
                         style={receivableCardStyle.iconsContainer}
                     >
-                        <Link href="" asChild>
+                        <Link href={{ pathname: `receivableDetails/${item.id}`, params: { disable: disabled } }} asChild>
                             <TouchableOpacity
                                 activeOpacity={0.6}
                             >
@@ -131,7 +133,7 @@ export default function ReceivableCard({group}: ReceivableCardProps) {
                         <Text style={receivableCardStyle.contentDefinition}>Valor: </Text>
                         <Text style={receivableCardStyle.contentText}>R$ {item.value.toFixed(2)}</Text>
                     </View>
-                    <Link href="" asChild>
+                    <Link href={{ pathname: `receivableDetails/${item.id}`, params: { disable: enabled } }} asChild>
                         <TouchableOpacity
                             activeOpacity={0.6}
                             style={{alignItems: 'center'}}

@@ -1,9 +1,9 @@
 import { Alert, TouchableOpacity, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
 import { ClientCardStyle } from "./style";
-import { Client } from "@/libs/storage";
 import { useClientContext } from "@/contexts/clientContext";
 import { Link } from "expo-router";
+import { Client } from "@/libs/clientStorage";
 
 export interface ClientCardProps {
     client: Client;
