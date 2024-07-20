@@ -3,6 +3,13 @@ import colors from "@/constants/colors";
 import { Tabs } from "expo-router";
 import { Icon } from "react-native-paper";
 
+export const defaultTabBarStyle = {
+    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderBottomWidth: 0,
+    borderColor: colors.border,
+    minHeight: 74,
+}
 
 export default function TabsLayout() {
     return (
@@ -11,13 +18,7 @@ export default function TabsLayout() {
                 headerShown: false,
                 tabBarActiveTintColor: colors.accent,
                 tabBarInactiveTintColor: colors.primary,
-                tabBarStyle: {
-                    backgroundColor: colors.background,
-                    borderWidth: 1,
-                    borderBottomWidth: 0,
-                    borderColor: colors.border,
-                    minHeight: 74,
-                },
+                tabBarStyle: defaultTabBarStyle,
                 tabBarItemStyle: {
                     paddingBottom: 15,
                     paddingTop: 15
@@ -52,8 +53,15 @@ export default function TabsLayout() {
                     ),
                     title: "Clientes",
                     headerShown: true,
-                    header: () => <PageHeader title="Clientes"/>
+                    header: () => <PageHeader title="Clientes"/>,
+                    href: {
+                        pathname: "clients",
+                        params: {
+                            origin: 'home'
+                        }
+                    }
                 }}
+                initialParams={{origin: 'home'}}
             />
             <Tabs.Screen
                 name="finances"

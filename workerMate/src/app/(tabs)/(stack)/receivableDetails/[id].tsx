@@ -86,7 +86,6 @@ export default function ReceivableDetails() {
 
     const currencyToNumber = (value: string) => {
         if (!value) return 0;
-        // Remove the currency symbol and replace the comma with a dot
         const numberString = value.replace(/[R$\s]/g, '').replace(',', '.');
         return parseFloat(numberString);
     };

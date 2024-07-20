@@ -13,6 +13,7 @@ export interface MainButtonProps {
     link?: string;
     type: ButtonType;
     disabled?: boolean;
+    returnFrom?: string;
     pressFunction?: () => void; 
 }
 
@@ -21,6 +22,7 @@ export default function MainButton({
         link,
         type,
         disabled,
+        returnFrom,
         pressFunction
 }: MainButtonProps) {
     const buttonStyle = disabled
@@ -44,6 +46,6 @@ export default function MainButton({
         </TouchableOpacity>
     )
     return (
-        link ? <Link href={link} asChild>{content}</Link> : content
+        link ? <Link href={{pathname: link, params: {origin: returnFrom}}} asChild>{content}</Link> : content
     );
 }

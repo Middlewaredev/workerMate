@@ -1,15 +1,34 @@
 import ClientCard from "@/components/clientCard";
 import DefaultInput from "@/components/defaultInput";
+import Header from "@/components/header";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import colors from "@/constants/colors";
 import { useClientContext } from "@/contexts/clientContext";
 import { layoutStyle } from "@/styles/layout";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
+import { defaultTabBarStyle } from "./_layout";
 
 export default function Clients() {
 
+    const {origin} = useLocalSearchParams();
+
     const { clients } = useClientContext();
+    const [enableSelect, setEnableSelect] = useState<boolean>(origin !== 'home');
+    const navigation = useNavigation();
+
+    useEffect(()=>{
+        setEnableSelect(origin !== 'home');
+    },[origin])
+
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            tabBarStyle: enableSelect ? {display: 'none'} : defaultTabBarStyle,
+            headerShown: !enableSelect,
+        })
+    }, [enableSelect])
 
     const noClients = (
         <View style={{flex: 1, alignItems: "center", marginTop: 40}}>
@@ -36,6 +55,8 @@ export default function Clients() {
                     <ClientCard
                         client={client}
                         key={index}
+                        selectable={enableSelect}
+                        returnTo={origin? origin : ''}
                     />
                 )}
             </View>
@@ -44,12 +65,19 @@ export default function Clients() {
 
     return (
         <View style={layoutStyle.container}>
+            {
+                enableSelect && 
+                <Header
+                    title="Clientes"
+                    returnTo={origin}
+                />
+            }
             {clients.length > 0 ? withClients : noClients}
             <MainButton
                 title="Adicionar Cliente"
                 type={ButtonType.primary}
                 link="(stack)/addClient"
-                
+                returnFrom={enableSelect? '': 'home'}
             />
         </View>
     );

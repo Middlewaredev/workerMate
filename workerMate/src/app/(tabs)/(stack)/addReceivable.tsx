@@ -11,11 +11,15 @@ import DefaultInput from "@/components/defaultInput";
 import TextAreaInput from "@/components/textAreaInput";
 import { useReceivableContext } from "@/contexts/receivableContext";
 import { Receivable } from "@/libs/receivableStorage";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { useClientContext } from "@/contexts/clientContext";
 
 
 export default function AddReceivable() {
     const { addReceivable } = useReceivableContext();
+    const {clients} = useClientContext();
+    const {clientId} = useLocalSearchParams();
+    const [clientName, setClientName] = useState<string>('');
     const [selectedOption, setSelectedOption] = useState<Receivable["status"]>('A receber')
     const [showCalendary, setShowCalendary] = useState<boolean>(false);
     const [visible, setVisible] = useState(false);
@@ -26,12 +30,11 @@ export default function AddReceivable() {
     const [description, setDescription] = useState<string>('')
     const [additionalInfo, setAdditionalInfo] = useState<string>('')
     const [notes, setNotes] = useState<string>('')
-    
+    const [encodeLink, setEncodeLink] = useState<string>(encodeURIComponent(`addReceivable/?clientId='${clientId}'`))
+    const [returnLink, setReturnLink] = useState<string>(`clients?origin=${encodeLink}`);
 
     const showDialog = () => setVisible(true);
-    const hideDialog = () => {
-        setVisible(false)
-    };
+    const hideDialog = () => setVisible(false);
 
     const onChange = (event, selectedDate) => {
         setShowCalendary(false)
@@ -43,6 +46,12 @@ export default function AddReceivable() {
         setShowCalendary(true)
     }
 
+    const handleLink = () => {
+        const originValue = `addReceivable/?clientId='${encodeURIComponent(clientId)}'`
+        setEncodeLink(encodeURIComponent(originValue));
+        setReturnLink(`clients?origin=${originValue}`);
+    }
+
     useEffect(() =>{
         if(payMethod && date && value && value !== 'R$0,00'){
             setEnableSave(true)
@@ -51,6 +60,11 @@ export default function AddReceivable() {
         }
     }, [payMethod, date, value])
 
+    useEffect(()=>{
+        const client = clients.find((client) => client.cpf === clientId || client.cnpj === clientId)
+        setClientName(client?.name);
+        handleLink();
+    }, [clientId])
     const currencyToNumber = (value: string) => {
         if (!value) return 0;
         // Remove the currency symbol and replace the comma with a dot
@@ -105,6 +119,8 @@ export default function AddReceivable() {
             <ReceivableOptions
                 icon="account-outline"
                 title="Cliente"
+                link={returnLink}
+                subtitle={clientName}
             />
             <ReceivableOptions
                 icon="currency-usd"
