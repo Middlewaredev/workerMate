@@ -9,10 +9,11 @@ import { useState } from "react";
 export interface ClientCardProps {
     client: Client;
     selectable: boolean;
-    returnTo?: string
+    returnTo?: string;
+    onChangeFunction?: (id: string) => void;
 }
 
-export default function ClientCard({client, selectable, returnTo}: ClientCardProps) {
+export default function ClientCard({client, selectable, returnTo, onChangeFunction}: ClientCardProps) {
     const {removeClients} = useClientContext();
     const link =  `clientDetails/${client.clientType === "cpf" ? client.cpf : client.cnpj}`;
     const [selectChecked, setSelectChecked] = useState<boolean>(false)
@@ -67,6 +68,7 @@ export default function ClientCard({client, selectable, returnTo}: ClientCardPro
             router.replace(`${returnTo}/?clientId=${clientId}`);
         } else {
             setId('')
+            if(onChangeFunction) { onChangeFunction('') }
         }
     };
 

@@ -14,7 +14,6 @@ import { Receivable } from "@/libs/receivableStorage";
 import { router, useLocalSearchParams } from "expo-router";
 import { useClientContext } from "@/contexts/clientContext";
 
-
 export default function AddReceivable() {
     const { addReceivable } = useReceivableContext();
     const {clients} = useClientContext();
@@ -30,8 +29,8 @@ export default function AddReceivable() {
     const [description, setDescription] = useState<string>('')
     const [additionalInfo, setAdditionalInfo] = useState<string>('')
     const [notes, setNotes] = useState<string>('')
-    const [encodeLink, setEncodeLink] = useState<string>(encodeURIComponent(`addReceivable/?clientId='${clientId}'`))
-    const [returnLink, setReturnLink] = useState<string>(`clients?origin=${encodeLink}`);
+    const [encodeLink, setEncodeLink] = useState<string>(encodeURIComponent(`addReceivable&clientId=${clientId}`))
+    const [returnLink, setReturnLink] = useState<string>(`clients/?origin=${encodeLink}`);
 
     const showDialog = () => setVisible(true);
     const hideDialog = () => setVisible(false);
@@ -47,9 +46,9 @@ export default function AddReceivable() {
     }
 
     const handleLink = () => {
-        const originValue = `addReceivable/?clientId='${encodeURIComponent(clientId)}'`
+        const originValue = `addReceivable&clientId=${encodeURIComponent(clientId)}`
         setEncodeLink(encodeURIComponent(originValue));
-        setReturnLink(`clients?origin=${originValue}`);
+        setReturnLink(`clients/?origin=${originValue}`);
     }
 
     useEffect(() =>{
@@ -61,10 +60,17 @@ export default function AddReceivable() {
     }, [payMethod, date, value])
 
     useEffect(()=>{
-        const client = clients.find((client) => client.cpf === clientId || client.cnpj === clientId)
-        setClientName(client?.name);
+        const client = clients.find((client) => {
+            if (client.clientType === 'cpf') {
+              return client.cpf === clientId;
+            } else {
+              return client.cnpj === clientId;
+            }
+        })
+        setClientName(client? client.name : "");
         handleLink();
     }, [clientId])
+
     const currencyToNumber = (value: string) => {
         if (!value) return 0;
         // Remove the currency symbol and replace the comma with a dot

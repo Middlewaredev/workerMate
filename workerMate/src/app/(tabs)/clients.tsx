@@ -13,15 +13,20 @@ import { defaultTabBarStyle } from "./_layout";
 
 export default function Clients() {
 
-    const {origin} = useLocalSearchParams();
-
+    const {origin, clientId} = useLocalSearchParams();
     const { clients } = useClientContext();
+    const [id, setId] = useState<string>(clientId ? clientId : "")
     const [enableSelect, setEnableSelect] = useState<boolean>(origin !== 'home');
     const navigation = useNavigation();
-
+    
+    const [link, setLink] = useState(origin + (clientId ? "/?clientId="+ (clientId ? clientId : "") : ""));
     useEffect(()=>{
         setEnableSelect(origin !== 'home');
     },[origin])
+
+    useEffect(() => {
+        setLink(origin + (clientId ? "/?clientId="+id : ""))
+    }, [id])
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -56,7 +61,8 @@ export default function Clients() {
                         client={client}
                         key={index}
                         selectable={enableSelect}
-                        returnTo={origin? origin : ''}
+                        returnTo={origin}
+                        onChangeFunction={setId}
                     />
                 )}
             </View>
@@ -69,7 +75,7 @@ export default function Clients() {
                 enableSelect && 
                 <Header
                     title="Clientes"
-                    returnTo={origin}
+                    returnTo={link}
                 />
             }
             {clients.length > 0 ? withClients : noClients}
