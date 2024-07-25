@@ -4,7 +4,8 @@ export interface Receivable {
     id: string;
     date: string;
     value: number;
-    clientName: string;
+    clientId: string;
+    clientType: string;
     orderNumber: string;
     description: string;
     additionalInfo: string;

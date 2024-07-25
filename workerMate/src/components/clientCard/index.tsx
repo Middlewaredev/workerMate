@@ -4,20 +4,19 @@ import { ClientCardStyle } from "./style";
 import { useClientContext } from "@/contexts/clientContext";
 import { Link, router } from "expo-router";
 import { Client } from "@/libs/clientStorage";
-import { useState } from "react";
 
 export interface ClientCardProps {
     client: Client;
     selectable: boolean;
     returnTo?: string;
     onChangeFunction?: (id: string) => void;
+    selectedClientId?: string;
 }
 
-export default function ClientCard({client, selectable, returnTo, onChangeFunction}: ClientCardProps) {
+export default function ClientCard({client, selectable, returnTo, onChangeFunction, selectedClientId}: ClientCardProps) {
     const {removeClients} = useClientContext();
     const link =  `clientDetails/${client.clientType === "cpf" ? client.cpf : client.cnpj}`;
-    const [selectChecked, setSelectChecked] = useState<boolean>(false)
-    const [id, setId] = useState<string>();
+    const isSelected = client.clientType === "cpf" ? client.cpf === selectedClientId : client.cnpj === selectedClientId;
 
     const confirmDeleteClient = () => {
         Alert.alert(
@@ -62,19 +61,17 @@ export default function ClientCard({client, selectable, returnTo, onChangeFuncti
 
     const handleSelect = () => {
         const clientId = client.clientType === "cpf" ? client.cpf : client.cnpj
-        setSelectChecked(!selectChecked);
-        if (!selectChecked) {
-            setId(clientId);
-            router.replace(`${returnTo}/?clientId=${clientId}`);
-        } else {
-            setId('')
-            if(onChangeFunction) { onChangeFunction('') }
+        if (onChangeFunction) {
+            onChangeFunction(isSelected ? '' : clientId);
+            if (!isSelected){
+                router.replace(`${returnTo}/?clientId=${clientId}`);
+            }
         }
     };
 
     const selectIcon =(
         <Checkbox
-            status={selectChecked ? 'checked': 'unchecked'}
+            status={isSelected ? 'checked': 'unchecked'}
             onPress={handleSelect}
         />
     )
@@ -110,7 +107,7 @@ export default function ClientCard({client, selectable, returnTo, onChangeFuncti
                     <Icon
                         source="cellphone"
                         size={16}
-                    />                
+                    />
                     <Text>
                         &nbsp;{client.phones[0]}
                     </Text>

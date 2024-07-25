@@ -9,6 +9,7 @@ export interface HeaderProps{
 }
 
 export default function Header({title, returnTo}: HeaderProps) {
+    console.log(returnTo)
     return (
         <View style={HeaderStyle.container}>
             <TouchableOpacity onPress={() => {

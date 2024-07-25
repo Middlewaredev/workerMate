@@ -19,11 +19,11 @@ export default function Receivables() {
             if(!acc[date]){
                 acc[date] = {
                     date,
-                    total: 0,
                     items: [],
+                    total: 0,
                 };
             }
-            acc[date].items.push(receivable);
+            acc[date].items.push({receivable});
             acc[date].total += receivable.value;
             return acc;
         }, {})

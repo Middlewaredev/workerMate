@@ -4,32 +4,27 @@ import { receivableCardStyle } from "./style";
 import { Link } from "expo-router";
 import { ClientCardStyle } from "../clientCard/style";
 import { useReceivableContext } from "@/contexts/receivableContext";
+import { Receivable } from "@/libs/receivableStorage";
+import { useClientContext } from "@/contexts/clientContext";
 
 export interface ReceivableCardProps {
     group: {
         date: string;
-        items: [{
-            id: string;
-            date: string;
-            value: number;
-            clientName: string;
-            orderNumber: number;
-            description: string;
-            additionalInfo: string;
-            notes: string;
-            paymentMethod: string,
-            status: string;
-        }];
+        items: {
+            receivable: Receivable;
+        }[];
         total: number;
     }
 }
 
 export default function ReceivableCard({group}: ReceivableCardProps) {
     const { removeReceivable } = useReceivableContext();
+    const { clients } = useClientContext();
+
     const disabled = 'true'
     const enabled = 'false'
 
-    const confirmDeleteClient = (id: string) => {
+    const confirmDeleteReceivable = (id: string) => {
         Alert.alert(
             'Excluir Recebimento',
             'Tem certeza de que deseja excluir este recebimento?',
@@ -45,6 +40,11 @@ export default function ReceivableCard({group}: ReceivableCardProps) {
             { cancelable: true }
         );
     };
+
+    const getClientName = (clientId: string, clientType: string) => {
+        const client = clients.find(c => clientType == 'cpf' ? c.cpf === clientId : c.cnpj === clientId )
+        return client ? client.name : '';
+    }
 
     return (
         <View
@@ -64,7 +64,7 @@ export default function ReceivableCard({group}: ReceivableCardProps) {
                     <View
                         style={receivableCardStyle.iconsContainer}
                     >
-                        <Link href={{ pathname: `receivableDetails/${item.id}`, params: { disable: disabled } }} asChild>
+                        <Link href={{ pathname: `receivableDetails/${item.receivable.id}`, params: { disable: disabled } }} asChild>
                             <TouchableOpacity
                                 activeOpacity={0.6}
                             >
@@ -76,7 +76,7 @@ export default function ReceivableCard({group}: ReceivableCardProps) {
                         </Link>
                         <TouchableOpacity
                             activeOpacity={0.6}
-                            onPress={() => confirmDeleteClient(item.id)}
+                            onPress={() => confirmDeleteReceivable(item.receivable.id)}
                         >
                             <Icon
                                 source="delete-outline"
@@ -84,56 +84,56 @@ export default function ReceivableCard({group}: ReceivableCardProps) {
                             />
                         </TouchableOpacity>
                     </View>
-                    {item.clientName
+                    {item.receivable.clientId
                         &&
                         <Text
                             style={receivableCardStyle.subtitle}
                         >
-                            {item.clientName}
+                            {getClientName(item.receivable.clientId, item.receivable.clientType)}
                         </Text>
                     }
-                    {item.orderNumber
+                    {item.receivable.orderNumber
                         &&
                         <View style={receivableCardStyle.itemContainer}>
                             <Text style={receivableCardStyle.contentDefinition}>Pedido nº: </Text>
                             <Text
                                 style={receivableCardStyle.contentText}
                             >
-                                {item.orderNumber}
+                                {item.receivable.orderNumber}
                             </Text>
                         </View>
                     }
-                    {item.description
+                    {item.receivable.description
                         &&
                         <View style={receivableCardStyle.itemContainer}>
                             <Text style={receivableCardStyle.contentDefinition}>Descrição: </Text>
                             <Text
                                 style={receivableCardStyle.contentText}
                             >
-                                {item.description}
+                                {item.receivable.description}
                             </Text>
                         </View>
                     }
-                    {item.additionalInfo
+                    {item.receivable.additionalInfo
                         &&
                         <View style={receivableCardStyle.itemContainer}>
                             <Text style={receivableCardStyle.contentDefinition}>Informações: </Text>
                             <Text
                                 style={receivableCardStyle.contentText}
                             >
-                                {item.additionalInfo}
+                                {item.receivable.additionalInfo}
                             </Text>
                         </View>
                     }
                     <View style={receivableCardStyle.itemContainer}>
                         <Text style={receivableCardStyle.contentDefinition}>Meio de pagamento: </Text>
-                        <Text style={receivableCardStyle.contentText}>{item.paymentMethod}</Text>
+                        <Text style={receivableCardStyle.contentText}>{item.receivable.paymentMethod}</Text>
                     </View>
                     <View style={receivableCardStyle.itemContainer}>
                         <Text style={receivableCardStyle.contentDefinition}>Valor: </Text>
-                        <Text style={receivableCardStyle.contentText}>R$ {item.value.toFixed(2)}</Text>
+                        <Text style={receivableCardStyle.contentText}>R$ {item.receivable.value.toFixed(2)}</Text>
                     </View>
-                    <Link href={{ pathname: `receivableDetails/${item.id}`, params: { disable: enabled } }} asChild>
+                    <Link href={{ pathname: `receivableDetails/${item.receivable.id}`, params: { disable: enabled } }} asChild>
                         <TouchableOpacity
                             activeOpacity={0.6}
                             style={{alignItems: 'center'}}

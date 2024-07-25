@@ -63,6 +63,7 @@ export default function Clients() {
                         selectable={enableSelect}
                         returnTo={origin}
                         onChangeFunction={setId}
+                        selectedClientId={id}
                     />
                 )}
             </View>
@@ -75,7 +76,7 @@ export default function Clients() {
                 enableSelect && 
                 <Header
                     title="Clientes"
-                    returnTo={link}
+                    returnTo={origin + (clientId ? "/?clientId="+ (clientId ? id : "") : "")}
                 />
             }
             {clients.length > 0 ? withClients : noClients}

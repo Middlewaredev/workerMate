@@ -13,12 +13,13 @@ import { useReceivableContext } from "@/contexts/receivableContext";
 import { Receivable } from "@/libs/receivableStorage";
 import { router, useLocalSearchParams } from "expo-router";
 import { useClientContext } from "@/contexts/clientContext";
+import { Client } from "@/libs/clientStorage";
 
 export default function AddReceivable() {
     const { addReceivable } = useReceivableContext();
     const {clients} = useClientContext();
     const {clientId} = useLocalSearchParams();
-    const [clientName, setClientName] = useState<string>('');
+    const [client, setClient] = useState<Client>();
     const [selectedOption, setSelectedOption] = useState<Receivable["status"]>('A receber')
     const [showCalendary, setShowCalendary] = useState<boolean>(false);
     const [visible, setVisible] = useState(false);
@@ -67,7 +68,7 @@ export default function AddReceivable() {
               return client.cnpj === clientId;
             }
         })
-        setClientName(client? client.name : "");
+        setClient(client? client : undefined);
         handleLink();
     }, [clientId])
 
@@ -83,7 +84,8 @@ export default function AddReceivable() {
             id: "1",
             date: date? date.toLocaleDateString() : "",
             value: currencyToNumber(value),
-            clientName: "",
+            clientId: client?.clientType == 'cpf' ? client.cpf : client?.cnpj,
+            clientType: client?.clientType,
             description: description,
             additionalInfo: additionalInfo,
             notes: notes,
@@ -126,7 +128,7 @@ export default function AddReceivable() {
                 icon="account-outline"
                 title="Cliente"
                 link={returnLink}
-                subtitle={clientName}
+                subtitle={client?.name}
             />
             <ReceivableOptions
                 icon="currency-usd"
