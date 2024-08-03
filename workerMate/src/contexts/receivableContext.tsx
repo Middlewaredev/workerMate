@@ -1,10 +1,11 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { loadReceivables, saveReceivable, deleteReceivable, updateReceivable } from "@/libs/receivableStorage";
 import { Receivable } from "@/libs/receivableStorage";
+import * as Crypto from 'expo-crypto'
 
 interface ReceivableContextType {
     receivables: Receivable[];
-    addReceivable: (receivable: Receivable) => void;
+    addReceivable: (receivable: Omit<Receivable, 'id'>) => void;
     removeReceivable: (receivableId: string) => void;
     updateReceivableFunction: (receivableId: string, newReceivable: Omit<Receivable, 'id'>) => void;
 }
@@ -22,9 +23,11 @@ export const ReceivableProvider = ({ children }: { children: ReactNode }) => {
         fetchReceivables();
     },[])
 
-    const addReceivable = async (receivable: Receivable) => {
-        await saveReceivable(receivable);
-        setReceivables([...receivables, receivable])
+    const addReceivable = async (receivable: Omit<Receivable, 'id'>) => {
+        const id = Crypto.randomUUID();
+        const newReceivable: Receivable = {id, ...receivable}
+        await saveReceivable(newReceivable);
+        setReceivables([...receivables, newReceivable])
     };
 
     const removeReceivable = async (receivableId: string) => {

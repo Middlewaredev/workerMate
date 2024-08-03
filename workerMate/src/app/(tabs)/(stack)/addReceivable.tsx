@@ -81,7 +81,6 @@ export default function AddReceivable() {
 
     const handleSaveReceivable = () =>{
         const newReceivable = {
-            id: "1",
             date: date? date.toLocaleDateString() : "",
             value: currencyToNumber(value),
             clientId: client?.clientType == 'cpf' ? client.cpf : client?.cnpj,
