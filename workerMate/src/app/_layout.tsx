@@ -5,6 +5,7 @@ import { PaperProvider } from 'react-native-paper';
 import { Slot } from 'expo-router';
 import { ClientProvider } from '@/contexts/clientContext';
 import { ReceivableProvider } from '@/contexts/receivableContext';
+import { OrderProvider } from '@/contexts/orderContext';
 
 export default function index(){
     const [fontsLoaded] = loadFonts();
@@ -16,9 +17,11 @@ export default function index(){
     return (
         <ClientProvider>
             <ReceivableProvider>
-                <PaperProvider theme={theme}>
-                    <Slot />
-                </PaperProvider>
+                <OrderProvider>
+                    <PaperProvider theme={theme}>
+                        <Slot />
+                    </PaperProvider>
+                </OrderProvider>
             </ReceivableProvider>
         </ClientProvider>
     )

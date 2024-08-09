@@ -5,10 +5,10 @@ export const receivableOptionsStyle = StyleSheet.create({
     container: {
         flexDirection: 'row', 
         width: '100%', 
-        paddingHorizontal: 20, 
+        paddingHorizontal: '12%', 
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginTop: 5
+        marginTop: 10
     },
     title: {
         fontSize: 12

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Dialog, Icon, Portal, RadioButton, Text } from "react-native-paper";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import ReceivableOptions from "@/components/receivableOptions";
+import ReceivableOptions from "@/components/AddItemOptions";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import DefaultInput from "@/components/defaultInput";
 import TextAreaInput from "@/components/textAreaInput";
@@ -14,10 +14,14 @@ import { Receivable } from "@/libs/receivableStorage";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import colors from "@/constants/colors";
 import TwoButtons from "@/components/twoButtons";
+import { useClientContext } from "@/contexts/clientContext";
+import { Client } from "@/libs/clientStorage";
 
 
 export default function ReceivableDetails() {
     const { updateReceivableFunction, receivables } = useReceivableContext();
+    const { clients } = useClientContext();
+    const [client, setClient] = useState<Client>();
     const { id, disable } = useLocalSearchParams<{id: string, disable: string}>();
     const [receivable, setReceivable] = useState<Receivable | undefined>(undefined);
     const [disabled, setDisabled] = useState(true);
@@ -137,6 +141,17 @@ export default function ReceivableDetails() {
         }
     }, [id]);
 
+    useEffect(()=>{
+        const client = clients.find((client) => {
+            if (receivable?.clientType === 'cpf') {
+              return client.cpf === receivable.clientId;
+            } else {
+              return client.cnpj === receivable?.clientId;
+            }
+        })
+        setClient(client? client : undefined);
+    }, [receivable])
+
     return (
         <View style={layoutStyle.container}>
             {header}
@@ -169,6 +184,7 @@ export default function ReceivableDetails() {
                 icon="account-outline"
                 title="Cliente"
                 disabled={disabled}
+                subtitle={client?.name}
             />
             <ReceivableOptions
                 icon="currency-usd"

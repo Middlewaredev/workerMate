@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Dialog, Portal, RadioButton } from "react-native-paper";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import ReceivableOptions from "@/components/receivableOptions";
+import AddItemOptions from "@/components/AddItemOptions";
 import MainButton, { ButtonType } from "@/components/mainButton";
 import DefaultInput from "@/components/defaultInput";
 import TextAreaInput from "@/components/textAreaInput";
@@ -112,25 +112,25 @@ export default function AddReceivable() {
                     <Picker.Item label="Em atraso" value="Em atraso" />
                 </Picker>
             </View>
-            <ReceivableOptions
+            <AddItemOptions
                 icon="calendar-month-outline"
                 title="Data do recebimento"
                 fun={showDatePicker}
                 subtitle={date? date.toLocaleDateString() : "" }
             />
-            <ReceivableOptions
+            <AddItemOptions
                 icon="text-box-outline"
                 title="Pedido"
-                
+                link="orders/?origin=addReceivable"
             />
-            <ReceivableOptions
+            <AddItemOptions
                 icon="account-outline"
                 title="Cliente"
                 link={returnLink}
                 subtitle={client?.name}
             />
-            <ReceivableOptions
-                icon="currency-usd"
+            <AddItemOptions
+                icon="credit-card-outline"
                 title="Meio de pagamento"
                 fun={showDialog}
                 subtitle={payMethod}

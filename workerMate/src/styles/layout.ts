@@ -33,7 +33,8 @@ export const layoutStyle = StyleSheet.create({
     },
     topic:{
         width: '80%',
-        marginTop: 10
+        marginTop: 5,
+        fontSize: 16
     },
     scroll: {
         width: '100%'

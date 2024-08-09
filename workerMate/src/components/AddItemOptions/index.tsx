@@ -4,7 +4,7 @@ import { Icon, Text } from "react-native-paper";
 import { receivableOptionsStyle } from "./style";
 import colors from "@/constants/colors";
 
-export interface ReceivableOptionsProps {
+export interface AddItemOptionsProps {
     icon: string,
     title: string,
     subtitle?: string,
@@ -13,7 +13,7 @@ export interface ReceivableOptionsProps {
     fun?: () => void
 }
 
-export default function ReceivableOptions({icon, title, subtitle, link, disabled, fun}: ReceivableOptionsProps){
+export default function AddItemOptions({icon, title, subtitle, link, disabled, fun}: AddItemOptionsProps){
     const content = (
         <TouchableOpacity
             activeOpacity={0.6}

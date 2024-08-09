@@ -87,6 +87,15 @@ export default function TabsLayout() {
                     }
                 }}
             />
+            <Tabs.Screen 
+                name="orders"
+                options={{
+                    href: null,
+                    tabBarStyle: {
+                        display: 'none'
+                    }
+                }}
+            />
         </Tabs>
     );
 }
