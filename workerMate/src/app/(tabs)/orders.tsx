@@ -13,7 +13,6 @@ export default function Orders() {
     const {origin, clientId} = useLocalSearchParams();
     const { orders } = useOrderContext();
     const navigation = useNavigation();
-    
     const noOrders = (
         <View style={{flex: 1, alignItems: "center", marginTop: 40}}>
             <Icon
@@ -50,7 +49,7 @@ export default function Orders() {
             <MainButton
                 title="Adicionar Pedido"
                 type={ButtonType.primary}
-                link="(stack)/addOrder"
+                link={`(stack)/addOrder/?clientId=${clientId}`}
             />
         </View>
     );

@@ -30,8 +30,13 @@ export default function AddReceivable() {
     const [description, setDescription] = useState<string>('')
     const [additionalInfo, setAdditionalInfo] = useState<string>('')
     const [notes, setNotes] = useState<string>('')
-    const [encodeLink, setEncodeLink] = useState<string>(encodeURIComponent(`addReceivable&clientId=${clientId}`))
-    const [returnLink, setReturnLink] = useState<string>(`clients/?origin=${encodeLink}`);
+
+    const generateReturnLink = (page: string) => {
+        const originValue = `addReceivable&clientId=${encodeURIComponent(clientId)}`;
+        return `${page}/?origin=${originValue}`;
+    };
+
+    const [returnLink, setReturnLink] = useState<string>(generateReturnLink('clients'));
 
     const showDialog = () => setVisible(true);
     const hideDialog = () => setVisible(false);
@@ -44,12 +49,6 @@ export default function AddReceivable() {
 
     const showDatePicker = () => {
         setShowCalendary(true)
-    }
-
-    const handleLink = () => {
-        const originValue = `addReceivable&clientId=${encodeURIComponent(clientId)}`
-        setEncodeLink(encodeURIComponent(originValue));
-        setReturnLink(`clients/?origin=${originValue}`);
     }
 
     useEffect(() =>{
@@ -69,7 +68,7 @@ export default function AddReceivable() {
             }
         })
         setClient(client? client : undefined);
-        handleLink();
+        setReturnLink(generateReturnLink('clients'));
     }, [clientId])
 
     const currencyToNumber = (value: string) => {
@@ -121,7 +120,7 @@ export default function AddReceivable() {
             <AddItemOptions
                 icon="text-box-outline"
                 title="Pedido"
-                link="orders/?origin=addReceivable"
+                link={generateReturnLink('orders')}
             />
             <AddItemOptions
                 icon="account-outline"
